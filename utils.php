@@ -15,8 +15,11 @@ function generateHTMLHeader($title){
     <script src="js/bootstrap.min.js"></script>
     <link href='css/style.css' rel='stylesheet'>
     <script src="js/jquery.min.js"></script>  
+    <link rel="stylesheet" href="css/codemirror.css">
+    
+
+    
     </head>
- 
     <body>
 CHAINE_DE_FIN;
 }
@@ -31,6 +34,11 @@ $pageList = array(
         'name' => 'info',
         'title' => 'Info',
         'menutitle' => 'Contact'
+    ),
+    array(
+        'name' => 'editor',
+        'title' => 'Editor',
+        'menutitle' => 'Editor'
     ),
     array(
         'name' => 'signup',
@@ -67,10 +75,9 @@ FIB;
                
   if(array_key_exists('loggedIn',$_SESSION) && $_SESSION['loggedIn']){
     Deconnexion();
-    }
-    else{
+    }  else{
     Connexion();
-                }
+    }
 echo "FIB                    
         </div>
     </nav> ";   
@@ -80,8 +87,12 @@ echo "FIB
 
 function generateHTMLFooter(){
     echo<<<CHAINE
+    
     </body>
+    <script src="js/codemirror.js"></script>
+    <script src="editor.js"></script>
     </html>
+
     CHAINE;
     }
 
