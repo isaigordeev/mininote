@@ -1,4 +1,5 @@
-<?php 
+<?php
+global $dbh;
 session_name("user");
 session_start();
 
@@ -9,13 +10,14 @@ if(!isset($_SESSION['initiated'])){
 }
 
 require('utils.php');
-require('Database.php');
+//require('Database.php');
 require('logInOut.php');
 //require('menu.php');
+require ('connection.php');
 
 //require('printForms.php');
 
-$dbh = MininoteDatabase::connect();
+//$dbh = MininoteDatabase::connect();
 
 if(array_key_exists('todo',$_GET) && $_GET['todo']=='login'){
     logIn($dbh);
@@ -38,6 +40,8 @@ if(!checkPage($askedPage)){
 
 
 $title = getPageTitle($askedPage);
+
+
 generateHTMLHeader($title);
 
 Menu();

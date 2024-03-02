@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Click Outside Div</title>
+  <style>
+      #myDiv {
+          width: 300px;
+          height: 200px;
+          background-color: lightgray;
+          padding: 20px;
+      }
+  </style>
+</head>
+<body>
+
+<div id="myDiv">
+  Click inside me!
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $(document).click(function(event) {
+            if (!$("#myDiv").is(event.target) && $("#myDiv").has(event.target).length === 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "process_click.php",
+                    success: function(response) {
+                        console.log(response);
+                    }
+                });
+            }
+        });
+    });
+
+    $(document).ready(function(){
+        $(document).keydown(function(event) {
+            // Check if Shift + S are pressed
+            if (event.shiftKey && event.key === "S") {
+                $.ajax({
+                    type: "POST",
+                    url: "process_click.php",
+                    success: function(response) {
+                        console.log(response);
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

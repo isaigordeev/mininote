@@ -8,21 +8,24 @@
     background-color: grey; border:solid 1px white; padding-top:15px; padding-bottom:15px;}
 
 
-.myform{
-   max-width: 100%;
-   box-shadow: 0 4px 6px 0 rgba(22, 22, 26, 0.18);
-   padding: 2em;
-   color:#fff;
-   @media (max-width: 576px) {
-      max-width: 90%;
-      margin: 0px auto;
-   }
-}
+/*.myform{*/
+/*   max-width: 100%;*/
+/*   box-shadow: 0 4px 6px 0 rgba(22, 22, 26, 0.18);*/
+/*   padding: 2em;*/
+/*   color:#fff;*/
+/*   @media (max-width: 576px) {*/
+/*      max-width: 90%;*/
+/*      margin: 0px auto;*/
+/*   }*/
+/*}*/
 
 .modal-body{
    padding: 0px;
 }
 
+.editor_bar {
+   background-color: lightgray;
+}
 
 .btn-close{
    position: absolute;

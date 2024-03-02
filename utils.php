@@ -14,7 +14,6 @@ function generateHTMLHeader($title){
     <link href='http://fonts.googleapis.com/css?family=Shadows+Into+light' rel='stylesheet' type='text/css'>
     <script src="js/bootstrap.min.js"></script>
     <link href='css/style.css' rel='stylesheet'>
-    <script src="js/jquery.min.js"></script>  
     <link rel="stylesheet" href="css/codemirror.css">
     
 
@@ -55,7 +54,7 @@ function Menu(){
     echo<<<FIB
     <div class="container-fluid">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
-        <a class="navbar-brand" href="index.php?page=accueil">Wiki Note</a>
+        <a class="navbar-brand" href="index.php?page=accueil">Mininote</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
         </button>
@@ -99,8 +98,10 @@ function generateHTMLFooter(){
     echo<<<CHAINE
     
     </body>
+    <script src="js/jquery.min.js"></script>
     <script src="js/codemirror.js"></script>
     <script src="editor.js"></script>
+    <script src="test.js"></script>
     </html>
 
     CHAINE;

@@ -11,26 +11,30 @@ function logIn($dbh){
             $login = $_POST["login"];
             $pass = $_POST["psw"];
 
-           // print_r($pass);
+            $_SESSION["login"] = $login;
 
-//        $logged = User::checkPass($dbh, $login, $pass);
+            print_r($pass);
+
+//        $logged = MininoteUser::checkPass($dbh, $login, $pass);
             $user = MininoteUser::getUser($dbh,$login);
             $mdp = MininoteUser::checkPass($dbh, $login, $pass);
 //        print_r($logged);
+
             if(!($user == null) && $mdp) {
                 $_SESSION['loggedIn'] = true;
             }
 
         }
-    
 
 }
 
 function logOut(){
     $_SESSION['loggedIn'] = false;
-    unset($_SESSION['loggedIn']);
-}
+//    unset($_SESSION['loggedIn']);
+    $_SESSION = array();
+    session_destroy();
 
+}
 
 
 
