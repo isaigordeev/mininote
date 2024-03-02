@@ -4,8 +4,16 @@
 
     <div class="row p-3 m-3">
         <div class="col-md-10 offset-1">
+          <form action="submit.php" method="post">
             <textarea id="code" name="code"></textarea>
+            <button type="submit">Submit</button>
+          </form>
+<!--            <textarea id="code" name="code"></textarea>-->
         </div>
     </div>
+
+    <div id="output">wad</div>
+
+    <button onclick="getText()">Get Text</button>
 
 </div>

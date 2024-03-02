@@ -140,6 +140,17 @@ class MininoteUser extends MininoteUserAbstract {
         }
     }
 
+    public static function createNote($dbh, $login, $noteid, $text){
+        try{
+            $user = MininoteUser::getUser($dbh, $login);
+            $sth = $dbh->prepare('INSERT INTO `notes` (`note_id`, `user_id`, `text`) VALUES(?,?,?)');
+            $sth->execute(array($noteid, $user->id, $text));
+        } catch (PDOException $e) {
+            echo 'Note is not created: ' . $e->getMessage();
+            exit(0);
+        }
+    }
+
     public static function checkPass($dbh, $login, $pass){
         try {$user = MininoteUser::getUser($dbh, $login);
 

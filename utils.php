@@ -62,14 +62,24 @@ function Menu(){
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto ">
 FIB;
+    if(array_key_exists('loggedIn',$_SESSION) && $_SESSION['loggedIn']){
     foreach($pageList as $page){
         if(array_key_exists('menutitle',$page)){
-        echo"
-            <li class='nav-item active'>
-            <a class='nav-link' href='index.php?page={$page['name']}'>{$page['menutitle']} </a>
-                    </li>";
-    }
-}
+            echo"
+        <li class='nav-item active'>
+        <a class='nav-link' href='index.php?page={$page['name']}'>{$page['menutitle']} </a>
+                </li>";
+        }
+    }}
+
+//    foreach($pageList as $page){
+//        if(array_key_exists('menutitle',$page)){
+//        echo"
+//            <li class='nav-item active'>
+//            <a class='nav-link' href='index.php?page={$page['name']}'>{$page['menutitle']} </a>
+//                    </li>";
+//    }
+//}
 
    echo'</ul>';
                

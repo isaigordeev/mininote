@@ -5,6 +5,7 @@ session_start();
 if(!isset($_SESSION['initiated'])){
     session_regenerate_id();
     $_SESSION['initiated'] = true;
+    $_SESSION['note_number'] = 0;
 }
 
 require('utils.php');
@@ -40,6 +41,13 @@ $title = getPageTitle($askedPage);
 generateHTMLHeader($title);
 
 Menu();
+
+
+if($askedPage == "editor"){
+    echo $_SESSION['note_number'];
+    $_SESSION['note_number'] += 1;
+}
+
 
 require("content/$askedPage.php");
 //require('content/homepage_logged.php');
