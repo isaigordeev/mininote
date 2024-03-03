@@ -47,13 +47,19 @@ generateHTMLHeader($title);
 Menu();
 
 
-if($askedPage == "editor"){
-    echo $_SESSION['note_number'];
-    $_SESSION['note_number'] += 1;
+//if($askedPage == "editor"){
+//    echo $_SESSION['note_number'];
+//    $_SESSION['note_number'] += 1;
+//}
+
+//if($_SESSION[log])
+var_dump($_SESSION);
+if(key_exists("loggedIn", $_SESSION) && $_SESSION["loggedIn"]){
+    require("content/client/$askedPage.php");
+} else {
+    require("content/guest/$askedPage.php");
 }
 
-
-require("content/$askedPage.php");
 //require('content/homepage_logged.php');
 
 modalsignup();

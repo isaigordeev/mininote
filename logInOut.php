@@ -13,7 +13,7 @@ function logIn($dbh){
 
             $_SESSION["login"] = $login;
 
-            print_r($pass);
+//            print_r($pass);
 
 //        $logged = MininoteUser::checkPass($dbh, $login, $pass);
             $user = MininoteUser::getUser($dbh,$login);

@@ -1,3 +1,3 @@
 <?php
-echo "Clicked outside of the div!";
+echo "Taped outside of the div!";
 ?>

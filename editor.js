@@ -2,6 +2,8 @@ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
     lineNumbers: true,
     mode: "application/x-httpd-php", // Set the mode to PHP
     theme: "default", // You can choose a different theme
+    scrollbarStyle: 'null',
+    lineWrapping: true,
 });
 
 window.editor = editor;
@@ -14,7 +16,6 @@ function getText() {
 
     var text = document.getElementById("code").textContent;
     var text = editor.getValue();
-
 
     document.getElementById("output").textContent = text;
 

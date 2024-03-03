@@ -108,7 +108,15 @@ abstract class MininoteUserAbstract {
     public $login;
     public $pass;
     public $name;
+}
 
+abstract class MininoteUserMetaData {
+    public $meta_id;
+    public $id;
+    public $creation_date;
+    public $last_m_date;
+    public $note_number;
+    public $dirs;
 }
 
 class MininoteUser extends MininoteUserAbstract {
@@ -130,6 +138,19 @@ class MininoteUser extends MininoteUserAbstract {
         else return NULL;
     }
 
+    public static function getUserMetaData($dbh, $login){
+        $user = MininoteUser::getUser($dbh, $login);
+        $query = "SELECT * FROM `metadata_users` WHERE `user_id` = $user->id";
+        $sth = $dbh->prepare($query);
+        $sth->setFetchMode(PDO::FETCH_CLASS, 'MininoteUserMetaData');
+        $request_succeeded = $sth->execute();
+        if ($request_succeeded){
+            $user_metadata = $sth->fetch();
+            return $user_metadata;
+        }
+        else return NULL;
+    }
+
     public static function insertUser($dbh, $login, $pass, $name){
         try{
             $sth = $dbh->prepare('INSERT INTO `users` (`Login`, `Pass`, `Name`) VALUES(?,?,?)');
@@ -140,7 +161,35 @@ class MininoteUser extends MininoteUserAbstract {
         }
     }
 
-    public static function createNote($dbh, $login, $text){
+    public static function createNote($dbh, $login, $path, $note_name, $text){
+        try{
+            $user_metadata = MininoteUser::getUserMetaData($dbh, $login);
+            $note_id = $user_metadata->note_number + 1;
+            $dirs = $user_metadata->dirs;
+
+            if($dirs == ""){
+
+            }
+
+            $sth = $dbh->prepare('INSERT INTO `notes` (`user_id`, `node_user_id`,`name`, `text`) VALUES(?,?)');
+            $sth->execute(array($user_metadata->id, $note_id, $note_name, $text));
+
+            $sth = $dbh->prepare('UPDATE `metadata_users`
+                      SET dirs = :path, notes_num = :note_number
+                      WHERE `user_id` = :user_id');
+
+            $sth->bindParam(':path', $path, PDO::PARAM_STR);
+            $sth->bindParam(':note_number', $note_id, PDO::PARAM_INT);
+            $sth->bindParam(':user_id', $user_metadata->id, PDO::PARAM_INT);
+            $sth->execute();
+
+        } catch (PDOException $e) {
+            echo 'Note is not created: ' . $e->getMessage();
+            exit(0);
+        }
+    }
+
+    public static function modifyNode($dbh, $login, $name, $note_id, $text){
         try{
             $user = MininoteUser::getUser($dbh, $login);
             $sth = $dbh->prepare('INSERT INTO `notes` (`user_id`, `text`) VALUES(?,?)');
@@ -220,7 +269,7 @@ class MininoteUser extends MininoteUserAbstract {
 
 function insertUser($dbh, $login, $mdp, $nom, $prenom, $promotion, $naissance, $email, $feuille){
     $sth = $dbh->prepare('INSERT INTO `utilisateurs` (`login`, `mdp`, `nom`, `prenom`, `promotion`, `naissance`, `email`, `feuille`) VALUES(?,?,?,?,?,?,?,?)');
-    $sth->execute(array($login,password_hash($mdp, PASSWORD_DEFAULT), $nom, $prenom, $promotion, $naissance, $email, $feuille));
+    $sth->execute(array($login, password_hash($mdp, PASSWORD_DEFAULT), $nom, $prenom, $promotion, $naissance, $email, $feuille));
 }
 
 function queryDB($dbh, $query){

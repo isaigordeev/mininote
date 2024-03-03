@@ -1,9 +1,7 @@
 
 $(document).ready(function(){
     $(document).keydown(function(event) {
-        // Check if Shift + S are pressed
         if (event.shiftKey && event.key === "S") {
-            // Use jQuery selector to select the div
             var myDiv = $("#myDiv");
             $.ajax({
                 type: "POST",
@@ -25,7 +23,7 @@ $(document).ready(function(){
         if (!$(event.target).is(editor_window) && $(editor_window).has(event.target).length === 0) {
 
 
-            var content = window.editor.getValue();
+            var content = window.editor?.getValue();
 
             var dataToSend = {
                 content: content,

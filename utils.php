@@ -30,11 +30,6 @@ $pageList = array(
         'menutitle' => 'Accueil'
     ),
     array(
-        'name' => 'info',
-        'title' => 'Info',
-        'menutitle' => 'Contact'
-    ),
-    array(
         'name' => 'editor',
         'title' => 'Editor',
         'menutitle' => 'Editor'
