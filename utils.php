@@ -90,13 +90,15 @@ echo "FIB
 
 
 function generateHTMLFooter(){
-    echo<<<CHAINE
+    echo <<<CHAINE
     
     </body>
     <script src="js/jquery.min.js"></script>
     <script src="js/codemirror.js"></script>
     <script src="editor.js"></script>
-    <script src="test.js"></script>
+    <script src="event_handlers.js"></script>
+    <script src="content/client/navigation_handler.js"></script>
+    
     </html>
 
     CHAINE;

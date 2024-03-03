@@ -5,7 +5,7 @@ $(document).ready(function(){
             var myDiv = $("#myDiv");
             $.ajax({
                 type: "POST",
-                url: "process_keyboard_save.php",
+                url: "event_keyboard_save.php",
                 success: function(response) {
                     console.log(response);
                 }
@@ -32,7 +32,7 @@ $(document).ready(function(){
 
             $.ajax({
                 type: "POST",
-                url: "process_click_save.php",
+                url: "event_click_save.php",
                 data: dataToSend,
                 success: function(response) {
                     console.log(response);
