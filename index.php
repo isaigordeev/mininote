@@ -57,8 +57,10 @@ Menu();
 var_dump($_SESSION);
 
 if(key_exists("loggedIn", $_SESSION) && $_SESSION["loggedIn"]){
+
     require("content/client/$askedPage.php");
 } else {
+    $askedPage = "accueil";
     require("content/guest/$askedPage.php");
 }
 

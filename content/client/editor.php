@@ -14,7 +14,7 @@
     <div class="col-md-6">
         <?php
         require("editor_page_logic.php");
-        if(!$_SESSION['isNote']){
+        if(true){
           editorInstance();
         } else {
           startPage();

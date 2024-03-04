@@ -59,10 +59,18 @@ FIB;
     if(array_key_exists('loggedIn',$_SESSION) && $_SESSION['loggedIn']){
     foreach($pageList as $page){
         if(array_key_exists('menutitle',$page)){
-            echo"
+
+            if($page['name'] == "editor"){
+                echo"
+        <li class='nav-item active'>
+        <a class='nav-link' href='index.php?page={$page['name']}?isnote='>{$page['menutitle']} </a>
+                </li>";
+            } else {
+                echo "
         <li class='nav-item active'>
         <a class='nav-link' href='index.php?page={$page['name']}'>{$page['menutitle']} </a>
                 </li>";
+            }
         }
     }}
 
