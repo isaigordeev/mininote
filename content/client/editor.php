@@ -1,3 +1,4 @@
+
 <div class="container-fluid Signup">
   <div class="col-md-6 offset-md-3">
   <h4>Note name</h4>
@@ -11,10 +12,17 @@
     </div>
 
     <div class="col-md-6">
-
-      <div id="editor-bar">
-        <textarea id="code" rows="30" name="code"></textarea>
-      </div>
+        <?php
+        require("editor_page_logic.php");
+        if(!$_SESSION['isNote']){
+          editorInstance();
+        } else {
+          startPage();
+        }
+        ?>
+<!--      <div id="editor-bar">-->
+<!--        <textarea id="code" rows="30" name="code"></textarea>-->
+<!--      </div>-->
     </div>
 
     <div id="info-bar" class="col-md-3">

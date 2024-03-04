@@ -97,6 +97,7 @@ function generateHTMLFooter(){
     <script src="js/codemirror.js"></script>
     <script src="editor.js"></script>
     <script src="event_handlers.js"></script>
+    <script src="event_keyboard_create_note.js"></script>
     <script src="content/client/navigation_handler.js"></script>
     
     </html>

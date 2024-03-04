@@ -6,8 +6,8 @@ echo "Clicked outside of the div!";
 
 $content = $_POST['content'];
 $user_login = $_POST['login'];
+$note_name = "Untitled";
 
-//MininoteUser::createNote($dbh, $user_login, $content);
-
+//MininoteUser::createNote($dbh, $user_login, $note_name, $content);
 
 ?>

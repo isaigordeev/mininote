@@ -7,6 +7,7 @@ if(!isset($_SESSION['initiated'])){
     session_regenerate_id();
     $_SESSION['initiated'] = true;
     $_SESSION['note_number'] = 0;
+    $_SESSION['isNote'] = false;
 }
 
 require('utils.php');
@@ -54,6 +55,7 @@ Menu();
 
 //if($_SESSION[log])
 var_dump($_SESSION);
+
 if(key_exists("loggedIn", $_SESSION) && $_SESSION["loggedIn"]){
     require("content/client/$askedPage.php");
 } else {
