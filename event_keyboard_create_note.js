@@ -30,12 +30,18 @@ $(document).ready(function(){
                 login: "isai"
             };
 
+
             $.ajax({
                 type: "POST",
                 url: "event_keyboard_create_note.php",
                 data: dataToSend,
                 success: function(response) {
                     console.log(response);
+
+                    $("#elementToInitialize").show();
+
+                    var newElement = $("<div>").text("Initialized Element");
+                    $("body").append(newElement);
                 }
             });
         }

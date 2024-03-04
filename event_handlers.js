@@ -16,6 +16,8 @@ $(document).ready(function(){
                 data: dataToSend,
                 success: function(response) {
                     console.log(response);
+                    var newElement = $("<div>").text("Initialized Element");
+                    $("body").append(newElement);
                 }
             });
         }

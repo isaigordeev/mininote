@@ -63,7 +63,7 @@ FIB;
             if($page['name'] == "editor"){
                 echo"
         <li class='nav-item active'>
-        <a class='nav-link' href='index.php?page={$page['name']}?isnote='>{$page['menutitle']} </a>
+        <a class='nav-link' href='index.php?page={$page['name']}'>{$page['menutitle']} </a>
                 </li>";
             } else {
                 echo "

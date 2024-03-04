@@ -12,13 +12,23 @@
     </div>
 
     <div class="col-md-6">
+
+    <div id="elementToInitialize" style="display: none;">This is the element to initialize</div>
         <?php
         require("editor_page_logic.php");
-        if(true){
-          editorInstance();
-        } else {
-          startPage();
-        }
+//        editorInstance();
+        var_dump($_GET);
+        var_dump($_POST);
+
+
+        startPage();
+//        if(isset($_GET["isnote"])){
+//          var_dump($_GET);
+//          editorInstance();
+//        } else {
+//            var_dump($_GET);
+//          startPage();
+//        }
         ?>
 <!--      <div id="editor-bar">-->
 <!--        <textarea id="code" rows="30" name="code"></textarea>-->
