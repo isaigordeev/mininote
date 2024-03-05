@@ -58,10 +58,3 @@ $(document).ready(function() {
     constructNavigationBar();
 });
 
-$(document).ready(function() {
-    // Add event handler for input changes in noteNameSpace element
-    $("#noteNameSpace").on("input", function() {
-        // This function will be called whenever the content of noteNameSpace changes
-        console.log("Note name modified:", $(this).text());
-    });
-});

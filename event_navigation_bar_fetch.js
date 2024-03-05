@@ -85,6 +85,47 @@ function editorDelete() {
 
 }
 
+$(document).ready(function() {
+    $("#noteNameSpace").on("input", function() {
+        console.log("Note name modified:", $(this).text());
+    });
+});
+
+$(document).ready(function() {
+    $("#noteNameSpace").on("input", function() {
+
+        $.post("fetch_session.php", function(sessionData) {
+            console.log("Session data:", sessionData);
+            FinalRequest(sessionData);
+        });
+
+        $.post("fetch_session.php", function(sessionData) {
+            console.log("Session data:", sessionData);
+            FinalRequest(sessionData);
+        });
+
+        function FinalRequest(sessionData){
+
+            var content = window.editor?.getValue();
+            var note_name = $("#noteNameSpace").text();
+            // var note_name = "Untitled";
+            // console.log(note_name);
+
+            $.ajax({
+                type: "POST",
+                url: "event_keyboard_save_note.php",
+                data: {login: sessionData.login, content: content, note_name: note_name},
+                success: function(resp) {
+                    console.log(resp);
+                }
+            });
+
+            constructNavigationBar();
+        }
+    });
+});
+
+
 function editorInitiation(note_name) {
     // console.log(response);
 
@@ -136,7 +177,7 @@ function editorInitiation(note_name) {
         // var noteNameArea = <div id="editableNoteName" contentEditable="true">Untitled
         // </div>
         // var noteNameArea = '<div id="editableNoteName" contentEditable="true">Untitled</div>';
-        var noteNameArea = $("<div>").attr("id", "editableNoteName").attr("contentEditable", "true").text("Untitled");
+        var noteNameArea = $("<div>").attr("id", "editableNoteName").attr("contentEditable", "true").text(note_name);
 
         editorContainer.append(textarea);
         noteNameSpace.append(noteNameArea);
@@ -153,7 +194,7 @@ function editorInitiation(note_name) {
     }
 }
 
-function saveNote0() {
+function saveNote() {
 
     $.post("fetch_session.php", function(sessionData) {
         console.log("Session data:", sessionData);
@@ -163,7 +204,7 @@ function saveNote0() {
     function FinalRequest(sessionData){
 
         var content = window.editor?.getValue();
-        var note_name = $("#noteNameSpace").innerText;
+        var note_name = $("#noteNameSpace").text();
         // var note_name = "Untitled";
         // console.log(note_name);
 
@@ -180,7 +221,7 @@ function saveNote0() {
     }
 }
 
-function saveNote() {
+function saveNote0() {
 
 
         var content = window.editor?.getValue();
@@ -214,6 +255,7 @@ function creationNote() {
             data: { login: sessionData.login},
             success: function(response) {
                 console.log(response);
+                console.log("note name yes");
 
                 editorInitiation(response);
                 constructNavigationBar();

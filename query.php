@@ -215,35 +215,31 @@ class MininoteUser extends MininoteUserAbstract {
             $note_id = $user_metadata->notes_num + 1;
             $dirs = $user_metadata->dirs;
 
-            if($dirs == null){
-                $dirs = array();
-//                array_push($dirs, $note_name);
-                $path = json_encode($dirs);
+            if($dirs == null || $dirs == ""){
+                $path = json_encode([$note_name]);
             } else {
+//                $paths_array = json_decode($dirs, true);
+//                $lastIndex = 1;
+//
+//                foreach ($paths_array as $key => $value) {
+//                    if (is_string($value)) {
+//                        $lastIndex++;
+//                    }
+//                }
+//                $paths_array[$lastIndex] = $note_name;
+
                 $paths_array = json_decode($dirs, true);
-//                print_r($dirs);
-//                print_r($paths_array);
-                $lastIndex = 0;
 
-                foreach ($paths_array as $key => $value) {
-                    if (is_string($value)) {
-                        $lastIndex++;
-                    }
+                if ($paths_array === null) {
+                    $paths_array = [];
                 }
-//                $obj = (array) $paths_array;
 
-//                $obj[$lastIndex+1] = $note_name;
+                $paths_array[] = $note_name;
 
-//                $paths_array = (object) $obj;
-                $paths_array[$lastIndex] = $note_name;
-
-//                print_r($paths_array);
-
-
-//                array_push($paths_array, $note_name);
                 $path = json_encode($paths_array);
             }
 
+            $dbh->beginTransaction();
 
             $sth = $dbh->prepare('INSERT INTO `notes` (`user_id`, `note_user_id`,`name`, `text`) VALUES(?,?,?,?)');
             $sth->execute(array($user_metadata->user_id, $note_id, $note_name, $text));
@@ -257,13 +253,16 @@ class MininoteUser extends MininoteUserAbstract {
             $sth->bindParam(':user_id', $user_metadata->user_id, PDO::PARAM_INT);
             $sth->execute();
 
+            $dbh->commit();
+
         } catch (PDOException $e) {
             echo 'Note is not created: ' . $e->getMessage();
             exit(0);
         }
     }
 
-    public static function modifyNote($dbh, $login, $name, $text){
+    public static function
+    modifyNote($dbh, $login, $name, $text){
         try{
             $user = MininoteUser::getUser($dbh, $login);
 //            $sth = $dbh->prepare('INSERT INTO `notes` (`user_id`, `text`) VALUES(?,?)');

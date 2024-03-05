@@ -75,14 +75,14 @@ if(key_exists("loggedIn", $_SESSION) && $_SESSION["loggedIn"]){
 
 //require('content/homepage_logged.php');
 
-
+$dbh = null;
 ?>
     
 
 
 <?php
     generateHTMLFooter();
-?>   
+?>
 
 
 

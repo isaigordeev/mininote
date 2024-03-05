@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-global $dbh;
 require("connection.php");
 require("query.php");
 echo "Save the note!";

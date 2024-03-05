@@ -25,9 +25,11 @@ foreach ($dirsArray as $dir) {
     if (strpos($dir, 'Untitled') !== false) {
         $untitledCount++;
     }
-}}
+}
+    $note_name = $note_name . $untitledCount;
 
-$note_name = $note_name . $untitledCount;
+}
+
 
 MininoteUser::createNote($dbh, $user_login, $note_name, $content);
 
