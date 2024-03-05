@@ -64,3 +64,4 @@ $(document).ready(function() {
         // This function will be called whenever the content of noteNameSpace changes
         console.log("Note name modified:", $(this).text());
     });
+});
