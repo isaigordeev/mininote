@@ -57,76 +57,144 @@ function handleKeyboardEvent(event) {
         navigationBarUpdate();
     } else if (event.shiftKey && event.key === "N" ) {
         creationNote();
+        editorInitiation();
         navigationBarUpdate();
     }
 }
 
+function editorInitiation() {
+    // console.log(response);
+
+    if ($("#code").length) {
+        console.log("Textarea with ID 'code' already exists.");
+
+
+        var editorWrapper = window.editor.getWrapperElement();
+        editorWrapper.parentNode.removeChild(editorWrapper);
+
+        var editorContainer = $("#editor-bar");
+
+        var textarea = $("#code");
+        textarea.remove();
+
+        var textarea = $("<textarea>").attr("id", "code").attr("rows", "30").attr("name", "code");
+        editorContainer.append(textarea);
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            lineNumbers: true,
+            mode: "application/x-httpd-php",
+            theme: "default",
+            scrollbarStyle: null,
+            lineWrapping: true
+        });
+
+        window.editor = editor;
+
+
+
+    } else{
+        var newElement = $("<div>").text("Initialized Element");
+        $("body").append(newElement);
+
+        var editorContainer = $("#editor-bar");
+        var startMenu = $("#empty-state-action-list");
+        startMenu.remove();
+
+        // editorContainer.append(editorContainer);
+
+        var textarea = $("<textarea>").attr("id", "code").attr("rows", "30").attr("name", "code");
+        editorContainer.append(textarea);
+
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            lineNumbers: true,
+            mode: "application/x-httpd-php",
+            theme: "default",
+            scrollbarStyle: null,
+            lineWrapping: true
+        });
+
+        window.editor = editor;
+    }
+}
+
 function creationNote() {
-    var dataToSend = {
-        isNote: "true",
-        login: "isai"
-    };
 
+    $.post("fetch_session.php", function(sessionData) {
+        // Use the session data as needed
+        console.log("Session data:", sessionData);
 
-    $.ajax({
-        type: "POST",
-        url: "event_keyboard_create_note.php",
-        data: dataToSend,
-        success: function(response) {
-            console.log(response);
+        // Example: Access individual session properties
+        // console.log("User ID:", sessionData.user_id);
+        // console.log("Username:", sessionData.username);
+        // console.log("Logged in:", sessionData.loggedin);
 
-            if ($("#code").length) {
-                console.log("Textarea with ID 'code' already exists.");
-
-
-                var editorWrapper = window.editor.getWrapperElement();
-                editorWrapper.parentNode.removeChild(editorWrapper);
-
-                var editorContainer = $("#editor-bar");
-
-                var textarea = $("#code");
-                textarea.remove();
-
-                var textarea = $("<textarea>").attr("id", "code").attr("rows", "30").attr("name", "code");
-                editorContainer.append(textarea);
-
-                var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-                    lineNumbers: true,
-                    mode: "application/x-httpd-php",
-                    theme: "default",
-                    scrollbarStyle: null,
-                    lineWrapping: true
-                });
-
-                window.editor = editor;
-
-
-
-            } else{
-                var newElement = $("<div>").text("Initialized Element");
-                $("body").append(newElement);
-
-                var editorContainer = $("#editor-bar");
-                var startMenu = $("#empty-state-action-list");
-                startMenu.remove();
-
-                // editorContainer.append(editorContainer);
-
-                var textarea = $("<textarea>").attr("id", "code").attr("rows", "30").attr("name", "code");
-                editorContainer.append(textarea);
-
-                var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-                    lineNumbers: true,
-                    mode: "application/x-httpd-php",
-                    theme: "default",
-                    scrollbarStyle: null,
-                    lineWrapping: true
-                });
-
-                window.editor = editor;
-            }
-        }
+        // Call the function to make the second AJAX request with sessionData as argument
+        FinalRequest(sessionData);
     });
+
+    function FinalRequest(sessionData){
+
+
+        $.ajax({
+            type: "POST",
+            url: "event_keyboard_create_note.php",
+            data: { login: sessionData.login},
+            success: function(response) {
+                console.log(response);
+
+                if ($("#code").length) {
+                    console.log("Textarea with ID 'code' already exists.");
+
+
+                    var editorWrapper = window.editor.getWrapperElement();
+                    editorWrapper.parentNode.removeChild(editorWrapper);
+
+                    var editorContainer = $("#editor-bar");
+
+                    var textarea = $("#code");
+                    textarea.remove();
+
+                    var textarea = $("<textarea>").attr("id", "code").attr("rows", "30").attr("name", "code");
+                    editorContainer.append(textarea);
+
+                    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+                        lineNumbers: true,
+                        mode: "application/x-httpd-php",
+                        theme: "default",
+                        scrollbarStyle: null,
+                        lineWrapping: true
+                    });
+
+                    window.editor = editor;
+
+
+
+                } else{
+                    var newElement = $("<div>").text("Initialized Element");
+                    $("body").append(newElement);
+
+                    var editorContainer = $("#editor-bar");
+                    var startMenu = $("#empty-state-action-list");
+                    startMenu.remove();
+
+                    // editorContainer.append(editorContainer);
+
+                    var textarea = $("<textarea>").attr("id", "code").attr("rows", "30").attr("name", "code");
+                    editorContainer.append(textarea);
+
+                    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+                        lineNumbers: true,
+                        mode: "application/x-httpd-php",
+                        theme: "default",
+                        scrollbarStyle: null,
+                        lineWrapping: true
+                    });
+
+                    window.editor = editor;
+                }
+            }
+        });
+    }
 }
 
 function handleClickEvent(event) {

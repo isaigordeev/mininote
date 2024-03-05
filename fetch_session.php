@@ -2,12 +2,13 @@
 session_start();
 
 // Check if the user is logged in
-if(isset($_SESSION['user_id'])) {
+if(isset($_SESSION['initiated'])) {
     // If user is logged in, return session data
     $sessionData = array(
-        'user_id' => $_SESSION['user_id'],
-        'username' => $_SESSION['username'],
-        'loggedin' => true
+        'initiated' => $_SESSION['initiated'],
+        'note_number' => $_SESSION['note_number'],
+        'login' => $_SESSION['login'],
+        'loggedIn' => $_SESSION['loggedIn'],
     );
 } else {
     // If user is not logged in, return empty session data

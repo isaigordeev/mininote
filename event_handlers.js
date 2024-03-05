@@ -46,21 +46,6 @@ $(document).ready(function() {
                 console.error(error);
             }
         });
-
-        $.ajax({
-            url: 'query.php',
-            type: 'GET',
-            // dataType: 'json',
-            xhrFields: {
-                withCredentials: true // Include session cookies
-            },
-            success: function(metadata) {
-                console.log(metadata);
-            },
-            error: function(xhr, status, error) {
-                console.error(error);
-            }
-        });
     }
 
     performAjaxRequest();

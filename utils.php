@@ -127,6 +127,7 @@ function generateHTMLFooter(){
     <script src="event_keyboard_create_note.js"></script>
     <script src="content/client/navigation_handler.js"></script>
     <script src="event_navigation_bar_fetch.js"></script>
+    <script src="event_click_delete_notes.js"></script>
     
     </html>
 

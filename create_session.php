@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['user_id'])) {
-    $_SESSION['user_id'] = uniqid();
-    $_SESSION['username'] = 'John Doe';
-}
+//if (!isset($_SESSION['user_id'])) {
+//    $_SESSION['user_id'] = uniqid();
+//    $_SESSION['username'] = 'John Doe';
+//}
 
 if(!isset($_SESSION['initiated'])){
     session_regenerate_id();
@@ -15,8 +15,7 @@ if(!isset($_SESSION['initiated'])){
 
 // Output a response
 echo json_encode(array(
-    'user_id' => $_SESSION['user_id'],
-    'username' => $_SESSION['username'],
-    'loggedin' => $_SESSION['loggedin']
+    'initiated' => $_SESSION['initiated'],
+    'note_number' => $_SESSION['note_number'],
 ));
 ?>

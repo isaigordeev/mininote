@@ -63,10 +63,8 @@ Menu();
 var_dump($_SESSION);
 
 if(key_exists("loggedIn", $_SESSION) && $_SESSION["loggedIn"]){
-
     account();
     require("content/client/$askedPage.php");
-
 } else {
     $askedPage = "accueil";
     modalsignup($askedPage);

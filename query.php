@@ -154,6 +154,22 @@ class MininoteUser extends MininoteUserAbstract {
         else return NULL;
     }
 
+    public static function deleteNotes($dbh, $login){
+        $user = MininoteUser::getUser($dbh, $login);
+        $query = "DELETE FROM notes WHERE `user_id` = '$user->id'";
+        $sth = $dbh->prepare($query);
+        $request_succeeded = $sth->execute();
+
+        $query = "UPDATE metadata_users SET dirs = '' WHERE `user_id` = '$user->id'";
+        $sth = $dbh->prepare($query);
+        $request_succeeded = $sth->execute();
+
+        if ($request_succeeded){
+            return true;
+        }
+        else return NULL;
+    }
+
 
 
     public static function insertUser($dbh, $login, $pass, $name){
