@@ -85,7 +85,7 @@ function editorDelete() {
 
 }
 
-function editorInitiation(note_name="Untitled") {
+function editorInitiation(note_name) {
     // console.log(response);
 
     if ($("#code").length) {
@@ -153,7 +153,7 @@ function editorInitiation(note_name="Untitled") {
     }
 }
 
-function saveNote() {
+function saveNote0() {
 
     $.post("fetch_session.php", function(sessionData) {
         console.log("Session data:", sessionData);
@@ -164,11 +164,13 @@ function saveNote() {
 
         var content = window.editor?.getValue();
         var note_name = $("#noteNameSpace").innerText;
+        // var note_name = "Untitled";
+        // console.log(note_name);
 
         $.ajax({
             type: "POST",
             url: "event_keyboard_save_note.php",
-            data: {login: sessionData.login, content: content, note: note_name},
+            data: {login: sessionData.login, content: content, note_name: note_name},
             success: function(resp) {
                 console.log(resp);
             }
@@ -176,6 +178,24 @@ function saveNote() {
 
         constructNavigationBar();
     }
+}
+
+function saveNote() {
+
+
+        var content = window.editor?.getValue();
+        var note_name = $("#noteNameSpace").text();
+
+        $.ajax({
+            type: "POST",
+            url: "event_keyboard_save_note.php",
+            data: {content: content, note_name: note_name},
+            success: function(resp) {
+                console.log(resp);
+            }
+        });
+
+        constructNavigationBar();
 }
 
 function creationNote() {

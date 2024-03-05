@@ -12,7 +12,6 @@
     <div class="col-md-6">
 
     <div id="noteNameSpace">
-
     </div>
 
 
@@ -20,8 +19,8 @@
         <?php
         require("editor_page_logic.php");
 //        editorInstance();
-        var_dump($_GET);
-        var_dump($_POST);
+//        var_dump($_GET);
+//        var_dump($_POST);
 
 
         startPage();
