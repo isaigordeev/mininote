@@ -1,4 +1,5 @@
 <?php
+session_start();
 echo "Taped outside of the div!";
 
 global $dbh;
@@ -10,8 +11,6 @@ echo "Create a new note!";
 $user_login = $_SESSION['login'];
 $note_name = "Untitled";
 $content = "";
-
-$_SESSION["isNote"] = true;
 
 
 $metadata_user = MininoteUserMetaData::getUserMetaData($dbh, $user_login);

@@ -69,7 +69,7 @@ function Menu(){
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto ">
 FIB;
-    if(array_key_exists('loggedIn',$_SESSION) && $_SESSION['loggedIn']){
+    if(array_key_exists('loggedIn', $_SESSION) && $_SESSION['loggedIn']){
     foreach($pageListIn as $page){
         if(array_key_exists('menutitle',$page)){
 
@@ -124,7 +124,6 @@ function generateHTMLFooter(){
     
     <script src="editor.js"></script>
     <script src="event_handlers.js"></script>
-    <script src="event_keyboard_create_note.js"></script>
     <script src="content/client/navigation_handler.js"></script>
     <script src="event_navigation_bar_fetch.js"></script>
     <script src="event_click_delete_notes.js"></script>

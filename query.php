@@ -174,8 +174,20 @@ class MininoteUser extends MininoteUserAbstract {
 
     public static function insertUser($dbh, $login, $pass, $name){
         try{
+            $dbh->beginTransaction();
+
             $sth = $dbh->prepare('INSERT INTO `Users` (`login`, `pass`, `name`) VALUES(?,?,?)');
             $sth->execute(array($login, password_hash($pass, PASSWORD_DEFAULT), $name));
+
+            $user = MininoteUser::getUser($dbh, $login);
+
+            $currentDateTime = date('Y-m-d H:i:s');
+
+            $sth = $dbh->prepare('INSERT INTO `metadata_users` (`user_id`, `creation_date`,
+                          `last_modified_date`, `notes_num`, `dirs`) VALUES(?,?,?,?,?)');
+            $sth->execute(array($user->id, $currentDateTime, $currentDateTime, 0, ""));
+
+            $dbh->commit();
         } catch (PDOException $e) {
             echo 'User is already here: ' . $e->getMessage();
             exit(0);

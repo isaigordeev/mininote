@@ -10,8 +10,9 @@
     </div>
 
     <div class="col-md-6">
+    <div id="editableNoteName" contenteditable="true">Untitled</div>
+
     <div id="editor-bar">
-    <div id="elementToInitialize" style="display: none;">This is the element to initialize</div>
         <?php
         require("editor_page_logic.php");
 //        editorInstance();

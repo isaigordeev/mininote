@@ -52,13 +52,12 @@ function renderMenu(paths) {
 
 function handleKeyboardEvent(event) {
     if (event.shiftKey && event.key === "F" ) {
-        navigationBarUpdate();
+        constructNavigationBar();
     } else if (event.shiftKey && event.key === "S" ) {
-        navigationBarUpdate();
+        saveNote();
     } else if (event.shiftKey && event.key === "N" ) {
         creationNote();
         editorInitiation();
-        navigationBarUpdate();
     }
 }
 
@@ -117,18 +116,34 @@ function editorInitiation() {
     }
 }
 
+function saveNote() {
+
+    $.post("fetch_session.php", function(sessionData) {
+        console.log("Session data:", sessionData);
+        FinalRequest(sessionData);
+    });
+
+    function FinalRequest(sessionData){
+
+        var content = window.editor?.getValue();
+
+        $.ajax({
+            type: "POST",
+            url: "event_keyboard_save_note.php",
+            data: { login: sessionData.login, content: content},
+            success: function(resp) {
+                console.log(resp);
+            }
+        });
+
+        constructNavigationBar();
+    }
+}
+
 function creationNote() {
 
     $.post("fetch_session.php", function(sessionData) {
-        // Use the session data as needed
         console.log("Session data:", sessionData);
-
-        // Example: Access individual session properties
-        // console.log("User ID:", sessionData.user_id);
-        // console.log("Username:", sessionData.username);
-        // console.log("Logged in:", sessionData.loggedin);
-
-        // Call the function to make the second AJAX request with sessionData as argument
         FinalRequest(sessionData);
     });
 
@@ -139,12 +154,11 @@ function creationNote() {
             type: "POST",
             url: "event_keyboard_create_note.php",
             data: { login: sessionData.login},
-            success: function(response) {
-                console.log(response);
+            success: function() {
+                // console.log(response);
 
                 if ($("#code").length) {
                     console.log("Textarea with ID 'code' already exists.");
-
 
                     var editorWrapper = window.editor.getWrapperElement();
                     editorWrapper.parentNode.removeChild(editorWrapper);
@@ -192,6 +206,8 @@ function creationNote() {
 
                     window.editor = editor;
                 }
+
+                constructNavigationBar();
             }
         });
     }
@@ -200,25 +216,20 @@ function creationNote() {
 function handleClickEvent(event) {
     var editor_window = $("#editor-bar");
     if (!$(editor_window).is(event.target) && $(editor_window).has(event.target).length === 0){
-        navigationBarUpdate()
+        constructNavigationBar()
     }
-
-    // if (event.target.id !== "editor-bar") {
-    //     navigationBarUpdate()
-    // }
 }
 
-function navigationBarUpdate(){
+function constructNavigationBar() {
     $.ajax({
         url: 'event_navigation_bar_fetch.php',
         type: 'GET',
-        dataType: 'json',
+        // dataType: 'json',
         success: function(paths) {
             console.log(paths);
-            // var data = JSON.parse(paths);
-            var html = renderMenu(paths);
+            var data = JSON.parse(paths);
+            var html = renderMenu(data);
 
-            // Update the navigation bar with the generated HTML
             document.getElementById("navigation-bar").innerHTML = html;
 
             var newElement = $("<div>").text("Initialized Element");

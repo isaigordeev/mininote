@@ -1,16 +1,14 @@
 <?php
+session_start();
 
 global $dbh;
-global $_SESSION;
 require("connection.php");
 require("query.php");
-echo "Create a note!";
+echo "Save the note!";
 
 $content = $_POST['content'];
 $user_login = $_SESSION['login'];
-$note_name = "Untitled2";
-
-echo $_SESSION;
+$note_name = "Untitled_saved";
 
 
 $metadata_user = MininoteUserMetaData::getUserMetaData($dbh, $user_login);

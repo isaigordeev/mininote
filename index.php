@@ -1,6 +1,6 @@
 <?php
 global $dbh;
-//session_start();
+session_start();
 
 //if(!isset($_SESSION['initiated'])){
 //    session_regenerate_id();

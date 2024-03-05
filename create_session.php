@@ -1,11 +1,6 @@
 <?php
 session_start();
 
-//if (!isset($_SESSION['user_id'])) {
-//    $_SESSION['user_id'] = uniqid();
-//    $_SESSION['username'] = 'John Doe';
-//}
-
 if(!isset($_SESSION['initiated'])){
     session_regenerate_id();
     $_SESSION['initiated'] = true;
@@ -13,7 +8,6 @@ if(!isset($_SESSION['initiated'])){
     $_SESSION['isNote'] = false;
 }
 
-// Output a response
 echo json_encode(array(
     'initiated' => $_SESSION['initiated'],
     'note_number' => $_SESSION['note_number'],
