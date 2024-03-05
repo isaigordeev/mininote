@@ -8,7 +8,7 @@ if(isset($_SESSION['initiated'])) {
         'note_number' => $_SESSION['note_number'],
         'login' => $_SESSION['login'],
         'loggedIn' => $_SESSION['loggedIn'],
-//        'currentNote' => $_SESSION['currentNote'],
+        'currentNote' => $_SESSION['currentNote'],
     );
 } else {
     // If user is not logged in, return empty session data

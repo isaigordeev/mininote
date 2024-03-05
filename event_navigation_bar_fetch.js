@@ -94,10 +94,6 @@ $(document).ready(function() {
 $(document).ready(function() {
     $("#noteNameSpace").on("input", function() {
 
-        $.post("fetch_session.php", function(sessionData) {
-            console.log("Session data:", sessionData);
-            FinalRequest(sessionData);
-        });
 
         $.post("fetch_session.php", function(sessionData) {
             console.log("Session data:", sessionData);
@@ -113,8 +109,8 @@ $(document).ready(function() {
 
             $.ajax({
                 type: "POST",
-                url: "event_keyboard_save_note.php",
-                data: {login: sessionData.login, content: content, note_name: note_name},
+                url: "event_keyboard_rename_note.php",
+                data: {login: sessionData.login, note_name: note_name},
                 success: function(resp) {
                     console.log(resp);
                 }
@@ -205,8 +201,6 @@ function saveNote() {
 
         var content = window.editor?.getValue();
         var note_name = $("#noteNameSpace").text();
-        // var note_name = "Untitled";
-        // console.log(note_name);
 
         $.ajax({
             type: "POST",
@@ -239,6 +233,18 @@ function saveNote0() {
         constructNavigationBar();
 }
 
+function fetchCurrentNote(response){
+
+    $.ajax({
+        type: "POST",
+        url: "fetch_current_note.php",
+        data: { currentNote: response},
+        success: function(resp) {
+            console.log(resp);
+        }
+    });
+}
+
 function creationNote() {
 
     $.post("fetch_session.php", function(sessionData) {
@@ -258,9 +264,18 @@ function creationNote() {
                 console.log("note name yes");
 
                 editorInitiation(response);
+
+                var currentNote = $("#noteNameSpace").text();
+                console.log(currentNote);
+                console.log("another flag");
+
+                fetchCurrentNote(currentNote);
+
                 constructNavigationBar();
             }
         });
+
+
     }
 }
 
@@ -294,7 +309,6 @@ function constructNavigationBar() {
 }
 
 
-// Add event listener for the "keydown" event on the document
 document.addEventListener("keydown", handleKeyboardEvent);
 document.addEventListener("click", handleClickEvent);
 // document.getElementById("your-button-id").addEventListener("click", handleClickEvent);

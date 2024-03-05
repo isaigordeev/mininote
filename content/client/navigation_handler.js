@@ -13,7 +13,7 @@ menuItems.forEach(function(item) {
     }
     );
 
-    item.addEventListener('click', openNote);
+    // item.addEventListener('click', openNote);
 
     var submenuItems = item.querySelectorAll('ul > li');
     submenuItems.forEach(function(subitem) {

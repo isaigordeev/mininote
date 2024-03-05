@@ -166,6 +166,26 @@ class MininoteUser extends MininoteUserAbstract {
         else return NULL;
     }
 
+    public static function renameNote($dbh, $login, $note_name, $new_note_name){
+//        $query = "SELECT `text` FROM `notes` WHERE `login` = '$login' AND `note_name` = '$note_name'";
+        $user = MininoteUser::getUser($dbh, $login);
+        $query = "UPDATE `notes` SET `text` = :new_note_name WHERE `name` = :note_name AND `user_id` = :user_id";
+        print_r($user);
+        // Prepare and execute the statement
+        $sth = $dbh->prepare($query);
+        $sth->bindParam(':new_note_name', $new_note_name);
+        $sth->bindParam(':note_name', $note_name);
+        $sth->bindParam(':user_id', $user->id);
+        $request_succeeded = $sth->execute();
+
+        // Check if the query was successful
+        if ($request_succeeded) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static function deleteNotes($dbh, $login){
         $user = MininoteUser::getUser($dbh, $login);
         $query = "DELETE FROM notes WHERE `user_id` = '$user->id'";
@@ -264,17 +284,23 @@ class MininoteUser extends MininoteUserAbstract {
     public static function
     modifyNote($dbh, $login, $name, $text){
         try{
+            $dbh->beginTransaction();
+
             $user = MininoteUser::getUser($dbh, $login);
-//            $sth = $dbh->prepare('INSERT INTO `notes` (`user_id`, `text`) VALUES(?,?)');
+
 
             $sth = $dbh->prepare('UPDATE `notes`
                       SET  `text` = :text
-                      WHERE `user_id` = :user_id AND `name` = :note_id');
+                      WHERE `user_id` = :user_id AND `name` = :name');
 
-            $sth->bindParam(':note_id', $name, PDO::PARAM_STR);
+            $sth->bindParam(':name', $name, PDO::PARAM_STR);
             $sth->bindParam(':text', $text, PDO::PARAM_STR);
             $sth->bindParam(':user_id', $user->id, PDO::PARAM_INT);
             $sth->execute(); #TODO a problem of transaction with that
+
+
+
+            $dbh->commit();
 
 //            $sth->execute(array($user->id, $text));
         } catch (PDOException $e) {

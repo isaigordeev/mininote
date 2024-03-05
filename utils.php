@@ -120,7 +120,6 @@ function generateHTMLFooter(){
     <script src="js/codemirror.js"></script>
     
     <script src="create_session.js"></script>
-    <script src="fetch_session.js"></script>
     
     <script src="editor.js"></script>
     <script src="event_handlers.js"></script>

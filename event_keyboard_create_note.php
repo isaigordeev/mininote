@@ -12,7 +12,6 @@ $user_login = $_SESSION['login'];
 $note_name = "Untitled";
 $content = "";
 
-
 $metadata_user = MininoteUserMetaData::getUserMetaData($dbh, $user_login);
 $path = $metadata_user->dirs;
 
@@ -27,7 +26,6 @@ foreach ($dirsArray as $dir) {
     }
 }
     $note_name = $note_name . $untitledCount;
-
 }
 
 

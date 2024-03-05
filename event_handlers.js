@@ -58,3 +58,19 @@ $(document).ready(function() {
     constructNavigationBar();
 });
 
+$(document).ready(function() {
+    var currentNote = $("#noteNameSpace").text();
+    console.log(currentNote);
+    console.log("current note");
+
+    $.ajax({
+        type: "POST",
+        url: "fetch_current_note.php",
+        data: { currentNote: currentNote},
+        success: function(response) {
+            console.log("HTML content of #noteNameSpace:", response);
+        }
+    });
+
+});
+

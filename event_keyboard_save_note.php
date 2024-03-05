@@ -1,23 +1,21 @@
 <?php
 session_start();
 
+global $dbh;
+global $_SESSION;
+
 require("connection.php");
 require("query.php");
-echo "Save the note!";
 
 $content = $_POST['content'];
-$note_name = $_POST['note_name'];
+$note_name = $_SESSION['currentNote'];
 $user_login = $_SESSION['login'];
 //$note_name = "Untitled";
 
 
-$metadata_user = MininoteUserMetaData::getUserMetaData($dbh, $user_login);
-$path = $metadata_user->dirs;
-//print_r($path);
-print_r($content);
-print_r($note_name);
+echo ($content);
+echo ($note_name);
+echo $user_login;
 
 MininoteUser::modifyNote($dbh, $user_login, $note_name, $content);
-//MininoteUser::createNote($dbh, $user_login, $note_name, $content);
-
 ?>
