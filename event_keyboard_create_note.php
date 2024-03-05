@@ -16,6 +16,7 @@ $metadata_user = MininoteUserMetaData::getUserMetaData($dbh, $user_login);
 $path = $metadata_user->dirs;
 
 $dirsArray = json_decode($path, true);
+//var_dump($dirsArray);
 
 if ($dirsArray !== null) {
 $untitledCount = 0;
@@ -25,7 +26,7 @@ foreach ($dirsArray as $dir) {
         $untitledCount++;
     }
 }
-    $note_name = $note_name . $untitledCount;
+    $note_name = $note_name . ($untitledCount+1);
 }
 
 

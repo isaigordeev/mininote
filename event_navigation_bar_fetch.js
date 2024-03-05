@@ -78,6 +78,10 @@ function handleKeyboardEvent(event) {
     } else if (event.shiftKey && event.key === "W" ) {
         saveNote();
         editorDelete();
+    } else if (event.shiftKey && event.key === "C" ) {
+        makePublic();
+    } else if (event.shiftKey && event.key === "V" ) {
+        makePrivate();
     }
 
 }
@@ -115,34 +119,28 @@ $(document).ready(function() {
 //     }
 // });
 
+
 $(document).ready(function() {
     $("#noteNameSpace").on("input", function() {
 
-
-        $.post("fetch_session.php", function(sessionData) {
-            console.log("Session data:", sessionData);
-            FinalRequest(sessionData);
-        });
-
-        function FinalRequest(sessionData){
-
             var content = window.editor?.getValue();
             var note_name = $("#editableNoteName").text();
-            // var note_name = "Untitled";
-            // console.log(note_name);
 
             $.ajax({
                 type: "POST",
                 url: "event_keyboard_rename_note.php",
-                data: {login: sessionData.login, note_name: note_name},
+                data: {content: content, note_name: note_name},
                 success: function(resp) {
                     console.log(resp);
+
+                    fetchCurrentNote(note_name);
+                    constructNavigationBar();
+
                 }
             });
 
-            constructNavigationBar();
-        }
     });
+
 });
 
 
@@ -189,12 +187,8 @@ function editorInitiation(note_name, content="") {
         var startMenu = $("#empty-state-action-list");
         startMenu.remove();
 
-        // editorContainer.append(editorContainer);
 
         var textarea = $("<textarea>").attr("id", "code").attr("rows", "30").attr("name", "code").text(content);
-        // var noteNameArea = <div id="editableNoteName" contentEditable="true">Untitled
-        // </div>
-        // var noteNameArea = '<div id="editableNoteName" contentEditable="true">Untitled</div>';
         var noteNameArea = $("<div>").attr("id", "editableNoteName").attr("contentEditable", "true").text(note_name);
 
         editorContainer.append(textarea);
@@ -212,7 +206,7 @@ function editorInitiation(note_name, content="") {
     }
 }
 
-function saveNote() {
+function saveNote0() {
 
     $.post("fetch_session.php", function(sessionData) {
         console.log("Session data:", sessionData);
@@ -241,7 +235,7 @@ function saveNote() {
     }
 }
 
-function saveNote0() {
+function saveNote() {
 
 
         var content = window.editor?.getValue();
@@ -259,6 +253,28 @@ function saveNote0() {
         constructNavigationBar();
 }
 
+function makePublic() {
+
+    $.ajax({
+        type: "POST",
+        url: "event_keyboard_make_note_public.php",
+        success: function(resp) {
+            console.log(resp);
+        }
+    });
+}
+
+function makePrivate() {
+
+    $.ajax({
+        type: "POST",
+        url: "event_keyboard_make_note_private.php",
+        success: function(resp) {
+            console.log(resp);
+        }
+    });
+}
+
 function fetchCurrentNote(response){
 
     $.ajax({
@@ -271,12 +287,12 @@ function fetchCurrentNote(response){
     });
 }
 
-function creationNote() {
+function creationNote0() {
 
-    // $.post("fetch_session.php", function(sessionData) {
-    //     console.log("Session data:", sessionData);
-    //     FinalRequest(sessionData);
-    // });
+    $.post("fetch_session.php", function(sessionData) {
+        console.log("Session data:", sessionData);
+        FinalRequest(sessionData);
+    });
 
     function FinalRequest(sessionData){
 
@@ -309,6 +325,33 @@ function creationNote() {
     }
 }
 
+
+function creationNote() {
+
+        $.ajax({
+            type: "POST",
+            url: "event_keyboard_create_note.php",
+            success: function(response) {
+                console.log(response);
+                console.log("note name yes");
+
+                editorInitiation(response);
+
+                var currentNote = $("#editableNoteName").text();
+                console.log(currentNote);
+                console.log("another flag");
+
+                fetchCurrentNote(currentNote);
+
+                constructNavigationBar();
+
+                console.log(window.editor);
+
+
+            }
+        });
+}
+
 function handleClickEvent(event) {
     var editor_window = $("#editor-bar");
     if (!$(editor_window).is(event.target) && $(editor_window).has(event.target).length === 0){
@@ -325,7 +368,7 @@ function constructNavigationBar() {
             if (paths == null || paths === ""){
                 document.getElementById("navigation-bar").innerHTML = "";
             } else {
-
+                console.log(paths);
                 var data = JSON.parse(paths);
                 var html = renderMenu(data);
 
@@ -338,8 +381,46 @@ function constructNavigationBar() {
     });
 }
 
+function constructWall() {
+    $.ajax({
+        url: 'event_wall_fetch.php',
+        type: 'GET',
+        success: function(paths_json) {
+            // Parse JSON data
+            console.log(paths_json);
+            var data = JSON.parse(paths_json);
+
+            // Check if data is empty or null
+            if (!data || data.length === 0) {
+                document.getElementById("wall").innerHTML = "<p>No notes available</p>";
+            } else {
+                console.log(data);
+                var html = '';
+
+                // Iterate over each note in the data
+                data.forEach(function(note) {
+                    // Generate HTML for the note
+                    html += '<div class="note">';
+                    html += '<h2>' + note.login + '</h2>';
+                    html += '<h2>' + note.name + '</h2>';
+                    html += '<p>' + note.text + '</p>';
+                    html += '</div>';
+                });
+
+                // Insert generated HTML into the wall
+                document.getElementById("wall").innerHTML = html;
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+}
+
+
 $(document).ready(function() {
     constructNavigationBar();
+    constructWall();
 });
 
 

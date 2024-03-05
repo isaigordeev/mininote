@@ -5,16 +5,21 @@
 <!--</div>-->
 
 <div class="container-fluid">
-    <div class="col-md-6 offset-md-3">
-      <h4>Note name</h4>
-    </div>
+  <div class="col-md-6 offset-md-3">
+    <h4>Notes</h4>
+  </div>
+
     <div class="row">
         <div class="col-md-3">
           <div id="navigation-bar" class="col">
           </div>
         </div>
         <div class="col-md-6">
-            Notes
+          <div class="col-md-6 offset-md-3">
+            <h4>Notes</h4>
+          </div>
+          <div id="wall"></div>
+
         </div>
         <div class="col-md-3">
             Note information

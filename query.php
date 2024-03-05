@@ -196,26 +196,82 @@ class MininoteUser extends MininoteUserAbstract {
         }
     }
 
+    public static function makeNotePublic($dbh, $login, $note_name){
+        $user = MininoteUser::getUser($dbh, $login);
+
+        $note_user_id = MininoteUser::getNoteId($dbh, $login, $note_name);
+
+        $query = "UPDATE `notes` SET `public` = 1 WHERE `note_user_id` = :note_user_id AND `user_id` = :user_id";
+
+        $sth = $dbh->prepare($query);
+        $sth->bindParam(':note_user_id', $note_user_id);
+        $sth->bindParam(':user_id', $user->id);
+        $request_succeeded = $sth->execute();
+    }
+
+    public static function getPublic($dbh){
+        $query = "SELECT u.login, n.name, n.text 
+              FROM notes n 
+              JOIN users u ON n.user_id = u.id 
+              WHERE n.public = 1";
+
+        $sth = $dbh->prepare($query);
+        $request_succeeded = $sth->execute();
+
+        if ($request_succeeded) {
+            // Fetch all rows as associative array
+            $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } else {
+            // Handle query execution failure
+            return false;
+        }
+    }
+
+
+    public static function makeNotePrivate($dbh, $login, $note_name){
+        $user = MininoteUser::getUser($dbh, $login);
+
+        $note_user_id = MininoteUser::getNoteId($dbh, $login, $note_name);
+
+        $query = "UPDATE `notes` SET `public` = 0 WHERE `note_user_id` = :note_user_id AND `user_id` = :user_id";
+
+        $sth = $dbh->prepare($query);
+        $sth->bindParam(':note_user_id', $note_user_id);
+        $sth->bindParam(':user_id', $user->id);
+        $request_succeeded = $sth->execute();
+    }
 
     public static function renameNote($dbh, $login, $note_name, $new_note_name){
-//        $query = "SELECT `text` FROM `notes` WHERE `login` = '$login' AND `note_name` = '$note_name'";
         $user = MininoteUser::getUser($dbh, $login);
+        $user_metadata = MininoteUserMetaData::getUserMetaData($dbh, $login);
+
         $note_user_id = MininoteUser::getNoteId($dbh, $login, $note_name);
+
+        $dirs_arr = json_decode($user_metadata->dirs, true);
+
+        foreach ($dirs_arr as $key => $value) {
+            // Check if the value matches the element to find
+            if ($value === $note_name) {
+                $dirs_arr[$key] = $new_note_name;
+            }
+        }
+        $dirs = json_encode($dirs_arr);
+
+        $query = "UPDATE `metadata_users` SET `dirs` = :new_dirs WHERE `user_id` = :user_id";
+
+        $sth = $dbh->prepare($query);
+        $sth->bindParam(':new_dirs', $dirs);
+        $sth->bindParam(':user_id', $user->id);
+        $request_succeeded = $sth->execute();
+
         $query = "UPDATE `notes` SET `name` = :new_note_name WHERE `note_user_id` = :note_user_id AND `user_id` = :user_id";
-        echo ($user);
-        // Prepare and execute the statement
+
         $sth = $dbh->prepare($query);
         $sth->bindParam(':new_note_name', $new_note_name);
         $sth->bindParam(':note_user_id', $note_user_id);
         $sth->bindParam(':user_id', $user->id);
         $request_succeeded = $sth->execute();
-
-        // Check if the query was successful
-        if ($request_succeeded) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public static function deleteNotes($dbh, $login){

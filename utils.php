@@ -102,8 +102,8 @@ FIB;
     Connexion();
     }
 echo "FIB                    
-        </div>
-    </nav> ";   
+    </div>
+    </nav></div> ";
  }
 
 
@@ -119,7 +119,6 @@ function generateHTMLFooter(){
     
     <script src="create_session.js"></script>
     
-    <script src="editor.js"></script>
     <script src="content/client/navigation_handler.js"></script>
     <script src="event_navigation_bar_fetch.js"></script>
     <script src="event_click_delete_notes.js"></script>

@@ -10,14 +10,9 @@ session_start();
 //}
 
 require('utils.php');
-//require('Database.php');
 require('logInOut.php');
-//require('menu.php');
 require ('connection.php');
 
-//require('printForms.php');
-
-//$dbh = MininoteDatabase::connect();
 
 if(array_key_exists('todo',$_GET) && $_GET['todo']=='signin'){
     SignUp($dbh);
@@ -40,11 +35,9 @@ if(array_key_exists('page',$_GET)){
     $askedPage = $_GET['page'];
 }
 
-
 if(!checkPage($askedPage)){
     $askedPage ='accueil';
 }
-
 
 $title = getPageTitle($askedPage);
 
@@ -60,7 +53,6 @@ Menu();
 //}
 
 //if($_SESSION[log])
-var_dump($_SESSION);
 
 if(key_exists("loggedIn", $_SESSION) && $_SESSION["loggedIn"]){
     account();
@@ -72,8 +64,6 @@ if(key_exists("loggedIn", $_SESSION) && $_SESSION["loggedIn"]){
 
     require("content/guest/$askedPage.php");
 }
-
-//require('content/homepage_logged.php');
 
 $dbh = null;
 ?>

@@ -96,7 +96,7 @@ function account(){
             <button id="deleteNotesButton" type='submit' class='btn btn-light mt-3'>Delete all notes</button>
             <button type='submit' class='btn btn-light mt-3'>Make all notes public</button>
             <button type='submit' class='btn btn-light mt-3'>Make all notes private</button>
-            <p>Vous n'avez pas de compte?<button class='btn1 btn-primary' type='button' data-bs-toggle='modal' data-bs-target='#warning'>Signup</button></a></p>
+            <p>Vous n'avez pas de compte?<button class='btn1 btn-primary' type='button' data-bs-toggle='modal' data-bs-target='#warning'>Signup</button></p>
         </form>
     </div>
    </div>
