@@ -210,19 +210,19 @@ class MininoteUser extends MininoteUserAbstract {
         try{
             $user_metadata = MininoteUserMetaData::getUserMetaData($dbh, $login);
             $user = MininoteUser::getUser($dbh, $login);
-            print($user_metadata);
-            print($user);
+//            print($user_metadata);
+//            print($user);
             $note_id = $user_metadata->notes_num + 1;
             $dirs = $user_metadata->dirs;
 
             if($dirs == null){
                 $dirs = array();
-                array_push($dirs, $note_name);
+//                array_push($dirs, $note_name);
                 $path = json_encode($dirs);
             } else {
                 $paths_array = json_decode($dirs, true);
-                print_r($dirs);
-                print_r($paths_array);
+//                print_r($dirs);
+//                print_r($paths_array);
                 $lastIndex = 0;
 
                 foreach ($paths_array as $key => $value) {
@@ -237,7 +237,7 @@ class MininoteUser extends MininoteUserAbstract {
 //                $paths_array = (object) $obj;
                 $paths_array[$lastIndex] = $note_name;
 
-                print_r($paths_array);
+//                print_r($paths_array);
 
 
 //                array_push($paths_array, $note_name);

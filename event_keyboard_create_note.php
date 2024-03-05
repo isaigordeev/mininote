@@ -1,12 +1,12 @@
 <?php
 session_start();
-echo "Taped outside of the div!";
+//echo "Taped outside of the div!";
 
 global $dbh;
 global $_SESSION;
 require("connection.php");
 require("query.php");
-echo "Create a new note!";
+//echo "Create a new note!";
 
 $user_login = $_SESSION['login'];
 $note_name = "Untitled";
@@ -30,5 +30,7 @@ foreach ($dirsArray as $dir) {
 $note_name = $note_name . $untitledCount;
 
 MininoteUser::createNote($dbh, $user_login, $note_name, $content);
+
+echo $note_name;
 
 ?>

@@ -85,7 +85,7 @@ function editorDelete() {
 
 }
 
-function editorInitiation() {
+function editorInitiation(note_name="Untitled") {
     // console.log(response);
 
     if ($("#code").length) {
@@ -101,7 +101,7 @@ function editorInitiation() {
         noteNameSpaceOld.remove();
         textarea.remove();
 
-        var noteNameArea = $("<div>").attr("id", "editableNoteName").attr("contentEditable", "true").text("Untitled");
+        var noteNameArea = $("<div>").attr("id", "editableNoteName").attr("contentEditable", "true").text(note_name);
 
         var noteNameSpace = $("#noteNameSpace");
         noteNameSpace.append(noteNameArea);
@@ -132,11 +132,11 @@ function editorInitiation() {
 
         // editorContainer.append(editorContainer);
 
-        var textarea = $("<textarea>").attr("id", "code").attr("rows", "30").attr("name", "code").text("Untitled");
+        var textarea = $("<textarea>").attr("id", "code").attr("rows", "30").attr("name", "code");
         // var noteNameArea = <div id="editableNoteName" contentEditable="true">Untitled
         // </div>
         // var noteNameArea = '<div id="editableNoteName" contentEditable="true">Untitled</div>';
-        var noteNameArea = $("<div>").attr("id", "editableNoteName").attr("contentEditable", "true");
+        var noteNameArea = $("<div>").attr("id", "editableNoteName").attr("contentEditable", "true").text("Untitled");
 
         editorContainer.append(textarea);
         noteNameSpace.append(noteNameArea);
@@ -163,11 +163,12 @@ function saveNote() {
     function FinalRequest(sessionData){
 
         var content = window.editor?.getValue();
+        var note_name = $("#noteNameSpace").innerText;
 
         $.ajax({
             type: "POST",
             url: "event_keyboard_save_note.php",
-            data: { login: sessionData.login, content: content},
+            data: { login: sessionData.login, content: content, note_name: note_name},
             success: function(resp) {
                 console.log(resp);
             }
@@ -191,10 +192,10 @@ function creationNote() {
             type: "POST",
             url: "event_keyboard_create_note.php",
             data: { login: sessionData.login},
-            success: function() {
-                // console.log(response);
+            success: function(response) {
+                console.log(response);
 
-                editorInitiation();
+                editorInitiation(response);
                 constructNavigationBar();
             }
         });
