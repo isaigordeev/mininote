@@ -168,7 +168,7 @@ function saveNote() {
         $.ajax({
             type: "POST",
             url: "event_keyboard_save_note.php",
-            data: { login: sessionData.login, content: content, note_name: note_name},
+            data: {login: sessionData.login, content: content, note: note_name},
             success: function(resp) {
                 console.log(resp);
             }
