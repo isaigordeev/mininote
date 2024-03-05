@@ -23,7 +23,7 @@ function generateHTMLHeader($title){
 CHAINE_DE_FIN;
 }
 
-$pageListLoggedIn = array(
+$pageListOut = array(
     array(
         'name' => 'accueil',
         'title' => 'Accueil site',
@@ -34,14 +34,6 @@ $pageListLoggedIn = array(
         'title' => 'Editor',
         'menutitle' => 'Editor'
     ),
-    array(
-        'name' => 'signup',
-        'title' => 'Inscription'
-    ),
-    array(
-        'name' => 'compte',
-        'title' => 'Compte'
-    )
 );
 
 $pageListIn = array(
@@ -137,8 +129,8 @@ function generateHTMLFooter(){
 
 
 function CheckPage($askedPage) {
-    global $pageList;
-    foreach($pageList as $page) {
+    global $pageListIn;
+    foreach($pageListIn as $page) {
       if( $page["name"] == $askedPage ) {
         return true;}
     }
@@ -146,8 +138,8 @@ function CheckPage($askedPage) {
   }
 
 function getPageTitle($page_name){
-    global $pageList;
-    foreach( $pageList as $page ) {
+    global $pageListIn;
+    foreach( $pageListIn as $page ) {
       if( $page["name"] == $page_name ) {
         return $page["title"];
       }

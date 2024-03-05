@@ -6,7 +6,6 @@ $(document).ready(function(){
 
             var dataToSend = {
                 content: content,
-                login: "isai",
             };
 
             $.ajax({
@@ -27,7 +26,6 @@ $(document).ready(function(){
 
             var dataToSend = {
                 isNote: "true",
-                login: "isai"
             };
 
 

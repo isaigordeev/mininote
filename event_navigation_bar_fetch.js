@@ -163,6 +163,7 @@ function navigationBarUpdate(){
     });
 }
 
+
 // Add event listener for the "keydown" event on the document
 document.addEventListener("keydown", handleKeyboardEvent);
 document.addEventListener("click", handleClickEvent);

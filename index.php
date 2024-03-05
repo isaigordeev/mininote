@@ -20,12 +20,19 @@ require ('connection.php');
 
 //$dbh = MininoteDatabase::connect();
 
+if(array_key_exists('todo',$_GET) && $_GET['todo']=='signin'){
+    SignUp($dbh);
+    unset($_GET['todo']);
+}
+
 if(array_key_exists('todo',$_GET) && $_GET['todo']=='login'){
     logIn($dbh);
+    unset($_GET['todo']);
 }
 
 if(array_key_exists('todo',$_GET) && $_GET['todo']=='logout'){
     logOut();
+    unset($_GET['todo']);
 }
  
 $askedPage= "accueil";
@@ -57,19 +64,20 @@ Menu();
 var_dump($_SESSION);
 
 if(key_exists("loggedIn", $_SESSION) && $_SESSION["loggedIn"]){
-    require("content/client/$askedPage.php");
-    if($askedPage='editor'){
 
-    }
+    account();
+    require("content/client/$askedPage.php");
+
 } else {
     $askedPage = "accueil";
+    modalsignup($askedPage);
+    modalconnexion($askedPage);
+
     require("content/guest/$askedPage.php");
 }
 
 //require('content/homepage_logged.php');
 
-modalsignup();
-modalconnexion($askedPage);
 
 ?>
     

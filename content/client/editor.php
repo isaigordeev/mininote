@@ -6,10 +6,7 @@
   <div class="row">
 
     <div id="navigation-bar" class="col">
-      <?php
-      require("navigation.php");
 
-      ?>
     </div>
 
     <div class="col-md-6">
@@ -47,6 +44,9 @@
 
 <!--    <button onclick="getText()">Get Text</button>-->
 </div>
+
+<script src="navigation_init.js"></script>
+
 
 <!--<script>-->
 <!--    var menuItems = document.querySelectorAll('ul > li');-->

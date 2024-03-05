@@ -158,7 +158,7 @@ class MininoteUser extends MininoteUserAbstract {
 
     public static function insertUser($dbh, $login, $pass, $name){
         try{
-            $sth = $dbh->prepare('INSERT INTO `users` (`Login`, `Pass`, `Name`) VALUES(?,?,?)');
+            $sth = $dbh->prepare('INSERT INTO `Users` (`login`, `pass`, `name`) VALUES(?,?,?)');
             $sth->execute(array($login, password_hash($pass, PASSWORD_DEFAULT), $name));
         } catch (PDOException $e) {
             echo 'User is already here: ' . $e->getMessage();

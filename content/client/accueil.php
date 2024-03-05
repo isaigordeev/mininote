@@ -10,9 +10,12 @@
     </div>
     <div class="row">
         <div class="col-md-3">
-            <?php
-            require("navigation.php");
-            ?>
+          <div id="navigation-bar" class="col">
+              <?php
+              //      require("navigation.php");
+
+              ?>
+          </div>
         </div>
         <div class="col-md-6">
             Notes

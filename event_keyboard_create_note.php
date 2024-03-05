@@ -7,7 +7,7 @@ require("connection.php");
 require("query.php");
 echo "Create a new note!";
 
-$user_login = $_POST['login'];
+$user_login = $_SESSION['login'];
 $note_name = "Untitled";
 $content = "";
 

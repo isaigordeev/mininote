@@ -5,10 +5,7 @@ require("connection.php");
 require("query.php");
 
 //$user_login = $_POST['login'];
-$user_login = "isai";
-$note_name = "Untitled";
-$content = "";
-
+$user_login = $_SESSION['login'];
 $metadata_user = MininoteUserMetaData::getUserMetaData($dbh, $user_login);
 $path = $metadata_user->dirs;
 

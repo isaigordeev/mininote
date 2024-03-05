@@ -23,3 +23,42 @@ $(document).ready(function(){
         }
     });
 });
+
+$(document).ready(function() {
+    function performAjaxRequest() {
+        $.ajax({
+            url: 'event_navigation_bar_fetch.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function(paths) {
+                console.log(paths);
+                // var data = JSON.parse(paths);
+                var html = renderMenu(paths);
+
+                // Update the navigation bar with the generated HTML
+                document.getElementById("navigation-bar").innerHTML = html;
+
+                var newElement = $("<div>").text("Initialized Element");
+                $("body").append(newElement);
+
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+
+        // $.ajax({
+        //     url: 'metadata.php',
+        //     type: 'GET',
+        //     dataType: 'json',
+        //     success: function(metadata) {
+        //         console.log(metadata);
+        //     },
+        //     error: function(xhr, status, error) {
+        //         console.error(error);
+        //     }
+        // });
+    }
+
+    performAjaxRequest();
+});
