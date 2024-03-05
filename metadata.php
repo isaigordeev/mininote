@@ -1,7 +1,7 @@
 <?php
-session_start();
+//session_start();
 
-$metadata = $_SESSION['login'];
+$metadata = $_SESSION["login"];
 // Output metadata as JSON
-echo $metadata;
+var_dump($metadata);
 ?>

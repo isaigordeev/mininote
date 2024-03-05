@@ -114,8 +114,14 @@ function generateHTMLFooter(){
     echo <<<CHAINE
     
     </body>
+
+    
     <script src="js/jquery.min.js"></script>
     <script src="js/codemirror.js"></script>
+    
+    <script src="create_session.js"></script>
+    <script src="fetch_session.js"></script>
+    
     <script src="editor.js"></script>
     <script src="event_handlers.js"></script>
     <script src="event_keyboard_create_note.js"></script>

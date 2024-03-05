@@ -29,7 +29,7 @@ $(document).ready(function() {
         $.ajax({
             url: 'event_navigation_bar_fetch.php',
             type: 'GET',
-            dataType: 'json',
+            // dataType: 'json',
             success: function(paths) {
                 console.log(paths);
                 // var data = JSON.parse(paths);
@@ -47,17 +47,20 @@ $(document).ready(function() {
             }
         });
 
-        // $.ajax({
-        //     url: 'metadata.php',
-        //     type: 'GET',
-        //     dataType: 'json',
-        //     success: function(metadata) {
-        //         console.log(metadata);
-        //     },
-        //     error: function(xhr, status, error) {
-        //         console.error(error);
-        //     }
-        // });
+        $.ajax({
+            url: 'query.php',
+            type: 'GET',
+            // dataType: 'json',
+            xhrFields: {
+                withCredentials: true // Include session cookies
+            },
+            success: function(metadata) {
+                console.log(metadata);
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
     }
 
     performAjaxRequest();
