@@ -19,10 +19,13 @@ function constructWall() {
                 data.forEach(function(note) {
                     // Generate HTML for the note
                     html += '<div class="note">';
-                    html += '<h2>' + note.login + '</h2>';
-                    html += '<h2>' + note.name + '</h2>';
+                    html += '<div class="note-header">';
+                    html += '<h4 class="login">' + note.login + '</h4>';
+                    html += '<h4 class="name">' + note.name + '</h4>';
+                    html += '</div>';
                     html += '<p>' + note.text + '</p>';
                     html += '</div>';
+
                 });
 
                 // Insert generated HTML into the wall

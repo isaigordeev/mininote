@@ -117,6 +117,11 @@ function generateHTMLFooter(){
     <script src="js/jquery.min.js"></script>
     <script src="js/codemirror.js"></script>
     
+    <script src="js/code.js"></script>
+    <link rel='stylesheet' href='fullcalendar/fullcalendar.css' />
+    <script src='fullcalendar/lib/moment.min.js'></script>
+    <script src='fullcalendar/fullcalendar.js'></script>
+    
     <script src="create_session.js"></script>
     
     <script src="content/client/navigation_handler.js"></script>

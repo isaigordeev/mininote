@@ -20,19 +20,29 @@
    padding: 10px;
    margin-bottom: 20px;
    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+   display: inline-block;
+   border-bottom: 1px solid #ccc; /* Add a bottom border to each note */
+   padding-bottom: 10px; /* Add some padding to the bottom of each note */
+
 }
 
-.note h2 {
-   color: #333;
-   font-size: 18px;
-   margin-bottom: 5px;
+.note-header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-bottom: 10px;
 }
 
-.note p {
-   color: #666;
-   font-size: 14px;
-   line-height: 1.6;
+.login {
+   margin: 0;
 }
+
+.name {
+   margin: 0;
+   text-align: center;
+   flex-grow: 1; /* Expand to fill available space */
+}
+
 
 /*.myform{*/
 /*   max-width: 100%;*/
@@ -113,4 +123,91 @@ p{
 
 p a:hover{
    color:blue;
+}
+
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/*
+    Created on : 6 avr. 2014, 22:12:35
+    Author     : olivierserre
+*/
+
+@import url(http://fonts.googleapis.com/css?family=Shadows+Into+Light);
+
+.center{
+   text-align: center;
+   background-color: yellow;
+}
+
+.rouge{
+   background-color: red;
+}
+
+.gris{
+   background-color: grey;
+}
+
+
+.jaune{
+   background-color: yellow;
+}
+
+.fondGris{
+   background-color: grey;
+   padding:10px;
+}
+
+.equipe {
+   background-color: #ffffc8;
+   padding-right: 15px;
+   padding-left: 15px;
+}
+
+.equipe [class*="col-"]{
+   padding-top: 20px;
+   margin-bottom: 20px;
+   text-align: center;
+}
+.equipe h3 {
+   font-weight: normal;
+}
+.equipe .col-lg-4 p {
+   margin-right: 10px;
+   margin-left: 10px;
+}
+
+.fc-button {
+ display: none !important;
+}
+
+.with-border {
+   border-bottom: 1px solid #ccc;
+}
+
+
+
+.temoignage {
+   margin-top: 50px;
+   padding-right: 15px;
+   padding-left: 15px;
+}
+
+.cours {
+   margin-top: 50px;
+   padding-right: 15px;
+   padding-left: 15px;
+}
+
+.temoignage p{
+   font-family: 'Shadows Into Light', cursive;
+   font-size: x-large;
+}
+
+.lignegauche{
+   border-left: 2px solid lightgrey;
+   padding-left:12px
 }

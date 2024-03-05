@@ -8,13 +8,15 @@ function startPage() {
         <h2>No file is open</h2>
         
       
-        <div class="empty-state-action">Create new file (⌘ N)</div>
+        <div class="empty-state-action">Create new file (Shift N)</div>
         
-        <div class="empty-state-action">Go to file (⌘ R)</div>
+        <div class="empty-state-action">Make a note public (Shift C)</div>
         
-        <div class="empty-state-action">See recent files (⌘ R)</div>
+        <div class="empty-state-action">Make a note private (Shift V)</div>
         
-        <div class="empty-state-action mod-close">Close</div>
+        <div class="empty-state-action mod-close">Save and Quit (Shift W)</div>
+        
+        <div class="empty-state-action mod-close">Save (Shift S)</div>
         
         
       </div>

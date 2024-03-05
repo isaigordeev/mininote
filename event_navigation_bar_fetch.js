@@ -97,11 +97,47 @@ function editorDelete() {
 
         var editorContainer = $("#editor-bar");
 
+
+
+
+
         var textarea = $("#code");
         textarea.remove();
 
         var noteNameSpaceOld = $("#editableNoteName");
         noteNameSpaceOld.remove();
+
+        const actions = [
+            "Create new file (Shift N)",
+            "Make a note public (Shift C)",
+            "Make a note private (Shift V)",
+            "Save and Quit (Shift W)",
+            "Save (Shift S)",
+        ];
+
+// Create a new div to hold the actions
+        const actionList = $("<div id='empty-state-action-list'></div>");
+
+        actionList.append("<h2>No file is open</h2>");
+
+// Loop through the actions and create div elements for each
+        actions.forEach(action => {
+            const div = $("<div></div>");
+            div.addClass("empty-state-action");
+            div.text(action);
+            actionList.append(div);
+        });
+
+// Create a parent container with the class "col-md-6 offset-md-3"
+        const parentContainer = $("<div></div>");
+        parentContainer.addClass("col-md-6 offset-md-3");
+
+// Insert the action list into the parent container
+        parentContainer.append(actionList);
+
+// Insert the parent container after the editor-bar
+        editorContainer.after(parentContainer);
+
 
     }
 
@@ -176,6 +212,14 @@ function editorInitiation(note_name, content="") {
             lineWrapping: true
         });
 
+        function refreshEditorSize() {
+            editor.refresh();
+        }
+
+        editor.on("change", function() {
+            refreshEditorSize();
+        });
+
         window.editor = editor;
 
 
@@ -199,7 +243,16 @@ function editorInitiation(note_name, content="") {
             mode: "application/x-httpd-php",
             theme: "default",
             scrollbarStyle: null,
-            lineWrapping: true
+            lineWrapping: true,
+            autoRefresh: true
+        });
+
+        function refreshEditorSize() {
+            editor.refresh();
+        }
+
+        editor.on("change", function() {
+            refreshEditorSize();
         });
 
         window.editor = editor;
@@ -400,10 +453,20 @@ function constructWall() {
                 // Iterate over each note in the data
                 data.forEach(function(note) {
                     // Generate HTML for the note
-                    html += '<div class="note">';
-                    html += '<h2>' + note.login + '</h2>';
-                    html += '<h2>' + note.name + '</h2>';
-                    html += '<p>' + note.text + '</p>';
+                    html += '<div class="container">';
+                    html += '<div class="row">';
+                    html += '<div class="col-md-8 offset-md-1">';
+                    html += '<div class="card">';
+                    html += '<div class="card-header">';
+                    html += 'Author: ~' + note.login;
+                    html += '</div>';
+                    html += '<div class="card-body">';
+                    html += '<h5 class="card-title">Title: ' + note.name + '</h5>';
+                    html += '<p class="card-text">' + note.text + '</p>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
                     html += '</div>';
                 });
 
@@ -416,6 +479,7 @@ function constructWall() {
         }
     });
 }
+
 
 
 $(document).ready(function() {

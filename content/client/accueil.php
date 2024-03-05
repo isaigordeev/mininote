@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
   <div class="col-md-6 offset-md-3">
-    <h4>Notes</h4>
+    <br>
   </div>
 
     <div class="row">
@@ -15,14 +15,10 @@
           </div>
         </div>
         <div class="col-md-6">
-          <div class="col-md-6 offset-md-3">
-            <h4>Notes</h4>
-          </div>
           <div id="wall"></div>
 
         </div>
         <div class="col-md-3">
-            Note information
         </div>
     </div>
 </div>
