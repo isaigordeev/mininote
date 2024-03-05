@@ -154,6 +154,18 @@ class MininoteUser extends MininoteUserAbstract {
         else return NULL;
     }
 
+    public static function openNote($dbh, $login, $note_name){
+        $query = "SELECT `text` FROM `notes` WHERE `login` = '$login' AND `note_name` = '$note_name'";
+        $sth = $dbh->prepare($query);
+        $sth->setFetchMode(PDO::FETCH_ASSOC);
+        $request_succeeded = $sth->execute();
+        if ($request_succeeded){
+            $note = $sth->fetch();
+            return $note;
+        }
+        else return NULL;
+    }
+
     public static function deleteNotes($dbh, $login){
         $user = MininoteUser::getUser($dbh, $login);
         $query = "DELETE FROM notes WHERE `user_id` = '$user->id'";
@@ -251,13 +263,23 @@ class MininoteUser extends MininoteUserAbstract {
         }
     }
 
-    public static function modifyNode($dbh, $login, $name, $note_id, $text){
+    public static function modifyNote($dbh, $login, $name, $text){
         try{
             $user = MininoteUser::getUser($dbh, $login);
-            $sth = $dbh->prepare('INSERT INTO `notes` (`user_id`, `text`) VALUES(?,?)');
-            $sth->execute(array($user->id, $text));
+//            $sth = $dbh->prepare('INSERT INTO `notes` (`user_id`, `text`) VALUES(?,?)');
+
+            $sth = $dbh->prepare('UPDATE `notes`
+                      SET  `text` = :text
+                      WHERE `user_id` = :user_id AND `name` = :note_id');
+
+            $sth->bindParam(':note_id', $name, PDO::PARAM_STR);
+            $sth->bindParam(':text', $text, PDO::PARAM_STR);
+            $sth->bindParam(':user_id', $user->id, PDO::PARAM_INT);
+            $sth->execute(); #TODO a problem of transaction with that
+
+//            $sth->execute(array($user->id, $text));
         } catch (PDOException $e) {
-            echo 'Note is not created: ' . $e->getMessage();
+            echo 'Note is not modified: ' . $e->getMessage();
             exit(0);
         }
     }

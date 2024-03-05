@@ -16,6 +16,19 @@ $content = "";
 $metadata_user = MininoteUserMetaData::getUserMetaData($dbh, $user_login);
 $path = $metadata_user->dirs;
 
+$dirsArray = json_decode($path, true);
+
+if ($dirsArray !== null) {
+$untitledCount = 0;
+
+foreach ($dirsArray as $dir) {
+    if (strpos($dir, 'Untitled') !== false) {
+        $untitledCount++;
+    }
+}}
+
+$note_name = $note_name . $untitledCount;
+
 MininoteUser::createNote($dbh, $user_login, $note_name, $content);
 
 ?>

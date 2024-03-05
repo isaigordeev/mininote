@@ -24,6 +24,14 @@
 //     });
 // });
 
+document.addEventListener("DOMContentLoaded", function() {
+    var editableDiv = document.getElementById("editableNoteName");
+
+    editableDiv.addEventListener("click", function() {
+        editableDiv.focus();
+    });
+});
+
 $(document).ready(function() {
     function constructNavigationBar() {
         $.ajax({

@@ -10,7 +10,11 @@
     </div>
 
     <div class="col-md-6">
-    <div id="editableNoteName" contenteditable="true">Untitled</div>
+
+    <div id="noteNameSpace">
+
+    </div>
+
 
     <div id="editor-bar">
         <?php

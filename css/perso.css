@@ -7,6 +7,11 @@
  .gris{
     background-color: grey; border:solid 1px white; padding-top:15px; padding-bottom:15px;}
 
+#editableNoteName {
+   border: 1px solid #ccc;
+   padding: 10px;
+   cursor: pointer;
+}
 
 /*.myform{*/
 /*   max-width: 100%;*/

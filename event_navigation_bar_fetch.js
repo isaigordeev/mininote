@@ -57,12 +57,14 @@ function handleKeyboardEvent(event) {
         saveNote();
     } else if (event.shiftKey && event.key === "N" ) {
         creationNote();
-        editorInitiation();
+    } else if (event.shiftKey && event.key === "W" ) {
+        saveNote();
+        editorDelete();
     }
+
 }
 
-function editorInitiation() {
-    // console.log(response);
+function editorDelete() {
 
     if ($("#code").length) {
         console.log("Textarea with ID 'code' already exists.");
@@ -75,6 +77,34 @@ function editorInitiation() {
 
         var textarea = $("#code");
         textarea.remove();
+
+        var noteNameSpaceOld = $("#editableNoteName");
+        noteNameSpaceOld.remove();
+
+    }
+
+}
+
+function editorInitiation() {
+    // console.log(response);
+
+    if ($("#code").length) {
+        console.log("Textarea with ID 'code' already exists.");
+
+        var editorWrapper = window.editor.getWrapperElement();
+        editorWrapper.parentNode.removeChild(editorWrapper);
+
+        var editorContainer = $("#editor-bar");
+
+        var textarea = $("#code");
+        var noteNameSpaceOld = $("#editableNoteName");
+        noteNameSpaceOld.remove();
+        textarea.remove();
+
+        var noteNameArea = $("<div>").attr("id", "editableNoteName").attr("contentEditable", "true").text("Untitled");
+
+        var noteNameSpace = $("#noteNameSpace");
+        noteNameSpace.append(noteNameArea);
 
         var textarea = $("<textarea>").attr("id", "code").attr("rows", "30").attr("name", "code");
         editorContainer.append(textarea);
@@ -96,13 +126,20 @@ function editorInitiation() {
         $("body").append(newElement);
 
         var editorContainer = $("#editor-bar");
+        var noteNameSpace = $("#noteNameSpace");
         var startMenu = $("#empty-state-action-list");
         startMenu.remove();
 
         // editorContainer.append(editorContainer);
 
-        var textarea = $("<textarea>").attr("id", "code").attr("rows", "30").attr("name", "code");
+        var textarea = $("<textarea>").attr("id", "code").attr("rows", "30").attr("name", "code").text("Untitled");
+        // var noteNameArea = <div id="editableNoteName" contentEditable="true">Untitled
+        // </div>
+        // var noteNameArea = '<div id="editableNoteName" contentEditable="true">Untitled</div>';
+        var noteNameArea = $("<div>").attr("id", "editableNoteName").attr("contentEditable", "true");
+
         editorContainer.append(textarea);
+        noteNameSpace.append(noteNameArea);
 
         var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
             lineNumbers: true,
@@ -157,56 +194,7 @@ function creationNote() {
             success: function() {
                 // console.log(response);
 
-                if ($("#code").length) {
-                    console.log("Textarea with ID 'code' already exists.");
-
-                    var editorWrapper = window.editor.getWrapperElement();
-                    editorWrapper.parentNode.removeChild(editorWrapper);
-
-                    var editorContainer = $("#editor-bar");
-
-                    var textarea = $("#code");
-                    textarea.remove();
-
-                    var textarea = $("<textarea>").attr("id", "code").attr("rows", "30").attr("name", "code");
-                    editorContainer.append(textarea);
-
-                    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-                        lineNumbers: true,
-                        mode: "application/x-httpd-php",
-                        theme: "default",
-                        scrollbarStyle: null,
-                        lineWrapping: true
-                    });
-
-                    window.editor = editor;
-
-
-
-                } else{
-                    var newElement = $("<div>").text("Initialized Element");
-                    $("body").append(newElement);
-
-                    var editorContainer = $("#editor-bar");
-                    var startMenu = $("#empty-state-action-list");
-                    startMenu.remove();
-
-                    // editorContainer.append(editorContainer);
-
-                    var textarea = $("<textarea>").attr("id", "code").attr("rows", "30").attr("name", "code");
-                    editorContainer.append(textarea);
-
-                    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-                        lineNumbers: true,
-                        mode: "application/x-httpd-php",
-                        theme: "default",
-                        scrollbarStyle: null,
-                        lineWrapping: true
-                    });
-
-                    window.editor = editor;
-                }
-
+                editorInitiation();
                 constructNavigationBar();
             }
         });
