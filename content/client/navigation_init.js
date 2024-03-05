@@ -5,10 +5,10 @@ function renderMenu(paths) {
         if (paths.hasOwnProperty(key)) { // Ensure the property belongs to the object itself, not inherited
             var item = paths[key];
             if (Array.isArray(item.children) && item.children.length > 0) {
-                html += '<li><a href="#">' + item.label + '</a>';
+                html += '<li>' + item.label;
                 html += renderMenu(item.children); // Recursively render nested menu
             } else {
-                html += '<li><a href="#">' + item + '</a></li>';
+                html += '<li>' + item + '</li>';
                 // console.log(item.label);
             }
         }
@@ -18,6 +18,7 @@ function renderMenu(paths) {
 
     return html;
 }
+
 
 function navigationBarUpdate(){
     $.ajax({

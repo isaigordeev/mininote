@@ -9,6 +9,8 @@ require("query.php");
 
 $content = $_POST['content'];
 $note_name = $_SESSION['currentNote'];
+//$note_name = $_POST['note_name'];
+
 $user_login = $_SESSION['login'];
 //$note_name = "Untitled";
 

@@ -5,16 +5,14 @@ global $dbh;
 global $_SESSION;
 require("connection.php");
 require("query.php");
-echo "Save the note!";
+echo "Rename the note!";
 
-$content = $_POST['content'];
 $note_name = $_POST['note_name'];
 $user_login = $_SESSION['login'];
 $current_note = $_SESSION['currentNote'];
 //$note_name = "Untitled";
 
 
-//print_r($path);
 print_r($current_note);
 print_r($note_name);
 

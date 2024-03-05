@@ -36,10 +36,10 @@ function renderMenu(paths) {
         if (paths.hasOwnProperty(key)) { // Ensure the property belongs to the object itself, not inherited
             var item = paths[key];
             if (Array.isArray(item.children) && item.children.length > 0) {
-                html += '<li><a href="#">' + item.label + '</a>';
+                html += '<li>' + item.label;
                 html += renderMenu(item.children); // Recursively render nested menu
             } else {
-                html += '<li><a href="#">' + item + '</a></li>';
+                html += '<li onclick="handleItemClick(this)">' + item + '</li>';
                 // console.log(item.label);
             }
         }
@@ -49,6 +49,24 @@ function renderMenu(paths) {
 
     return html;
 }
+
+function handleItemClick(element) {
+    console.log('Clicked item:', element.textContent);
+
+    $.ajax({
+        type: "POST",
+        url: "event_click_open_note.php",
+        data: {note_name: element.textContent},
+        success: function(resp) {
+            console.log(resp);
+            editorInitiation(element.textContent, resp);
+
+            fetchCurrentNote(element.textContent);
+        }
+    });
+
+}
+
 
 function handleKeyboardEvent(event) {
     if (event.shiftKey && event.key === "F" ) {
@@ -91,6 +109,12 @@ $(document).ready(function() {
     });
 });
 
+// document.getElementById("editableNoteName").addEventListener("keydown", function(event) {
+//     if (event.key === "Enter") {
+//         event.preventDefault();
+//     }
+// });
+
 $(document).ready(function() {
     $("#noteNameSpace").on("input", function() {
 
@@ -103,7 +127,7 @@ $(document).ready(function() {
         function FinalRequest(sessionData){
 
             var content = window.editor?.getValue();
-            var note_name = $("#noteNameSpace").text();
+            var note_name = $("#editableNoteName").text();
             // var note_name = "Untitled";
             // console.log(note_name);
 
@@ -122,7 +146,7 @@ $(document).ready(function() {
 });
 
 
-function editorInitiation(note_name) {
+function editorInitiation(note_name, content="") {
     // console.log(response);
 
     if ($("#code").length) {
@@ -143,7 +167,7 @@ function editorInitiation(note_name) {
         var noteNameSpace = $("#noteNameSpace");
         noteNameSpace.append(noteNameArea);
 
-        var textarea = $("<textarea>").attr("id", "code").attr("rows", "30").attr("name", "code");
+        var textarea = $("<textarea>").attr("id", "code").attr("rows", "30").attr("name", "code").text(content);
         editorContainer.append(textarea);
 
         var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
@@ -169,7 +193,7 @@ function editorInitiation(note_name) {
 
         // editorContainer.append(editorContainer);
 
-        var textarea = $("<textarea>").attr("id", "code").attr("rows", "30").attr("name", "code");
+        var textarea = $("<textarea>").attr("id", "code").attr("rows", "30").attr("name", "code").text(content);
         // var noteNameArea = <div id="editableNoteName" contentEditable="true">Untitled
         // </div>
         // var noteNameArea = '<div id="editableNoteName" contentEditable="true">Untitled</div>';
@@ -199,8 +223,12 @@ function saveNote() {
 
     function FinalRequest(sessionData){
 
+        console.log(window.editor);
         var content = window.editor?.getValue();
-        var note_name = $("#noteNameSpace").text();
+        console.log(content);
+        var note_name = $("#editableNoteName").text();
+        console.log(note_name);
+
 
         $.ajax({
             type: "POST",
@@ -265,13 +293,17 @@ function creationNote() {
 
                 editorInitiation(response);
 
-                var currentNote = $("#noteNameSpace").text();
+                var currentNote = $("#editableNoteName").text();
                 console.log(currentNote);
                 console.log("another flag");
 
                 fetchCurrentNote(currentNote);
 
                 constructNavigationBar();
+
+                console.log(window.editor);
+
+
             }
         });
 

@@ -15,7 +15,6 @@ function generateHTMLHeader($title){
     <script src="js/bootstrap.min.js"></script>
     <link href='css/style.css' rel='stylesheet'>
     <link rel="stylesheet" href="css/codemirror.css">
-    
 
     
     </head>

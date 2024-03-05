@@ -19,6 +19,23 @@ menuItems.forEach(function(item) {
     submenuItems.forEach(function(subitem) {
         subitem.addEventListener('click', function(event) {
             event.stopPropagation();
+
+
+            var content = subitem.textContent;
+            var note_name = subitem.dataset.noteName;
+
+            $.ajax({
+                type: "POST",
+                url: "event_click_open_note.php",
+                data: { content: content, note_name: note_name },
+                success: function(resp) {
+                    console.log(resp); // Handle success response
+                },
+                error: function(xhr, status, error) {
+                    console.error("An error occurred:", error); // Handle error
+                }
+            });
+
         });
     });
 });

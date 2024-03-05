@@ -155,26 +155,58 @@ class MininoteUser extends MininoteUserAbstract {
     }
 
     public static function openNote($dbh, $login, $note_name){
-        $query = "SELECT `text` FROM `notes` WHERE `login` = '$login' AND `note_name` = '$note_name'";
+        $user = MininoteUser::getUser($dbh, $login);
+        $query = "SELECT `text` FROM `notes` WHERE `user_id` = :user_id AND `name` = :note_name";
+
         $sth = $dbh->prepare($query);
-        $sth->setFetchMode(PDO::FETCH_ASSOC);
+        $sth->bindParam(':note_name', $note_name);
+        $sth->bindParam(':user_id', $user->id); // Assuming user_id is a property of $user
         $request_succeeded = $sth->execute();
+
         if ($request_succeeded){
-            $note = $sth->fetch();
-            return $note;
+            $note = $sth->fetch(PDO::FETCH_ASSOC); // Fetch the result as an associative array
+            if ($note) {
+                return $note['text']; // Return the value of the 'text' column
+            } else {
+                return NULL; // Note not found
+            }
+        } else {
+            return NULL; // Error executing the query
         }
-        else return NULL;
     }
+
+    public static function getNoteId($dbh, $login, $name) {
+        $user = MininoteUser::getUser($dbh, $login);
+        $query = "SELECT `note_user_id` FROM `notes` WHERE `user_id` = :login AND `name` = :name";
+
+        $sth = $dbh->prepare($query);
+        $sth->bindParam(':login', $user->id);
+        $sth->bindParam(':name', $name);
+        $request_succeeded = $sth->execute();
+
+        if ($request_succeeded) {
+            $result = $sth->fetch(PDO::FETCH_ASSOC);
+            if ($result) {
+                return $result['note_user_id']; // Return the node ID
+            } else {
+                return null; // Node not found
+            }
+        } else {
+            return null; // Error executing the query
+        }
+    }
+
 
     public static function renameNote($dbh, $login, $note_name, $new_note_name){
 //        $query = "SELECT `text` FROM `notes` WHERE `login` = '$login' AND `note_name` = '$note_name'";
         $user = MininoteUser::getUser($dbh, $login);
-        $query = "UPDATE `notes` SET `text` = :new_note_name WHERE `name` = :note_name AND `user_id` = :user_id";
-        print_r($user);
+        $note_user_id = MininoteUser::getNoteId($dbh, $login, $note_name);
+        $query = "UPDATE `notes` SET `name` = :new_note_name WHERE `note_user_id` = :note_user_id AND `user_id` = :user_id";
+        echo ($user);
         // Prepare and execute the statement
         $sth = $dbh->prepare($query);
         $sth->bindParam(':new_note_name', $new_note_name);
-        $sth->bindParam(':note_name', $note_name);
+        $sth->bindParam(':note_user_id', $note_user_id);
         $sth->bindParam(':user_id', $user->id);
         $request_succeeded = $sth->execute();
 
@@ -293,17 +325,21 @@ class MininoteUser extends MininoteUserAbstract {
                       SET  `text` = :text
                       WHERE `user_id` = :user_id AND `name` = :name');
 
-            $sth->bindParam(':name', $name, PDO::PARAM_STR);
-            $sth->bindParam(':text', $text, PDO::PARAM_STR);
-            $sth->bindParam(':user_id', $user->id, PDO::PARAM_INT);
+//            $name = "Untitled9";
+
+            echo ($name)."name ";
+
+            $sth->bindParam(':name', $name);
+            $sth->bindParam(':text', $text);
+            $sth->bindParam(':user_id', $user->id);
             $sth->execute(); #TODO a problem of transaction with that
 
-
-
             $dbh->commit();
+            echo "Update successful";
 
 //            $sth->execute(array($user->id, $text));
         } catch (PDOException $e) {
+            $dbh->rollBack();
             echo 'Note is not modified: ' . $e->getMessage();
             exit(0);
         }
