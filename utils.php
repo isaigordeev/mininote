@@ -13,7 +13,6 @@ function generateHTMLHeader($title){
     <link href="css/perso.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Shadows+Into+light' rel='stylesheet' type='text/css'>
     <script src="js/bootstrap.min.js"></script>
-    <link href='css/style.css' rel='stylesheet'>
     <link rel="stylesheet" href="css/codemirror.css">
 
     
@@ -121,7 +120,6 @@ function generateHTMLFooter(){
     <script src="create_session.js"></script>
     
     <script src="editor.js"></script>
-    <script src="event_handlers.js"></script>
     <script src="content/client/navigation_handler.js"></script>
     <script src="event_navigation_bar_fetch.js"></script>
     <script src="event_click_delete_notes.js"></script>

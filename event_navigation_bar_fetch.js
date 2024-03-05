@@ -183,8 +183,6 @@ function editorInitiation(note_name, content="") {
 
 
     } else{
-        var newElement = $("<div>").text("Initialized Element");
-        $("body").append(newElement);
 
         var editorContainer = $("#editor-bar");
         var noteNameSpace = $("#noteNameSpace");
@@ -275,10 +273,10 @@ function fetchCurrentNote(response){
 
 function creationNote() {
 
-    $.post("fetch_session.php", function(sessionData) {
-        console.log("Session data:", sessionData);
-        FinalRequest(sessionData);
-    });
+    // $.post("fetch_session.php", function(sessionData) {
+    //     console.log("Session data:", sessionData);
+    //     FinalRequest(sessionData);
+    // });
 
     function FinalRequest(sessionData){
 
@@ -324,21 +322,26 @@ function constructNavigationBar() {
         type: 'GET',
         // dataType: 'json',
         success: function(paths) {
-            console.log(paths);
-            var data = JSON.parse(paths);
-            var html = renderMenu(data);
+            if (paths == null || paths === ""){
+                document.getElementById("navigation-bar").innerHTML = "";
+            } else {
 
-            document.getElementById("navigation-bar").innerHTML = html;
+                var data = JSON.parse(paths);
+                var html = renderMenu(data);
 
-            var newElement = $("<div>").text("Initialized Element");
-            $("body").append(newElement);
-
+                document.getElementById("navigation-bar").innerHTML = html;
+            }
         },
         error: function(xhr, status, error) {
             console.error(error);
         }
     });
 }
+
+$(document).ready(function() {
+    constructNavigationBar();
+});
+
 
 
 document.addEventListener("keydown", handleKeyboardEvent);
