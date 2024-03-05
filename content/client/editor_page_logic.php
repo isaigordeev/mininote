@@ -3,10 +3,10 @@
 function startPage() {
     echo <<<FLAG
 
-      <h2>No file is open</h2>
 
-      <div class="empty-state-action-list">
-      
+      <div id="empty-state-action-list">
+        <h2>No file is open</h2>
+        
       
         <div class="empty-state-action">Create new file (⌘ N)</div>
         

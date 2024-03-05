@@ -23,7 +23,28 @@ function generateHTMLHeader($title){
 CHAINE_DE_FIN;
 }
 
-$pageList = array(
+$pageListLoggedIn = array(
+    array(
+        'name' => 'accueil',
+        'title' => 'Accueil site',
+        'menutitle' => 'Accueil'
+    ),
+    array(
+        'name' => 'editor',
+        'title' => 'Editor',
+        'menutitle' => 'Editor'
+    ),
+    array(
+        'name' => 'signup',
+        'title' => 'Inscription'
+    ),
+    array(
+        'name' => 'compte',
+        'title' => 'Compte'
+    )
+);
+
+$pageListIn = array(
     array(
         'name' => 'accueil',
         'title' => 'Accueil site',
@@ -45,7 +66,7 @@ $pageList = array(
 );
 
 function Menu(){
-    global $pageList;
+    global $pageListIn;
     echo<<<FIB
     <div class="container-fluid">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
@@ -57,7 +78,7 @@ function Menu(){
                 <ul class="navbar-nav me-auto ">
 FIB;
     if(array_key_exists('loggedIn',$_SESSION) && $_SESSION['loggedIn']){
-    foreach($pageList as $page){
+    foreach($pageListIn as $page){
         if(array_key_exists('menutitle',$page)){
 
             if($page['name'] == "editor"){
@@ -107,6 +128,7 @@ function generateHTMLFooter(){
     <script src="event_handlers.js"></script>
     <script src="event_keyboard_create_note.js"></script>
     <script src="content/client/navigation_handler.js"></script>
+    <script src="event_navigation_bar_fetch.js"></script>
     
     </html>
 

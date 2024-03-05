@@ -1,5 +1,4 @@
 <?php
-
 class Utilisateur {
     public $login;
     public $mdp;
@@ -329,14 +328,4 @@ function smartqueryDB($dbh, $query){
         }
     }
 }
-
-//require("Database.php");
-
-//$dbh = MininoteDatabase::connect();
-
-//MininoteUser::getUser($dbh, "isai");
-//MininoteUser::checkPass($dbh, "isai", "secret");
-
-//$dbh = null;
-
 ?>

@@ -7,12 +7,13 @@
 
     <div id="navigation-bar" class="col">
       <?php
-      require("navigation.php")
+      require("navigation.php");
+
       ?>
     </div>
 
     <div class="col-md-6">
-
+    <div id="editor-bar">
     <div id="elementToInitialize" style="display: none;">This is the element to initialize</div>
         <?php
         require("editor_page_logic.php");
@@ -33,6 +34,7 @@
 <!--      <div id="editor-bar">-->
 <!--        <textarea id="code" rows="30" name="code"></textarea>-->
 <!--      </div>-->
+    </div>
     </div>
 
     <div id="info-bar" class="col-md-3">
