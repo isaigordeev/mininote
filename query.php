@@ -310,6 +310,26 @@ class MininoteUser extends MininoteUserAbstract {
         else return NULL;
     }
 
+    public static function deleteAccount($dbh, $login){
+        $user = MininoteUser::getUser($dbh, $login);
+        $query = "DELETE FROM notes WHERE `user_id` = '$user->id'";
+        $sth = $dbh->prepare($query);
+        $request_succeeded = $sth->execute();
+
+        $query = "DELETE FROM metadata_users WHERE `user_id` = '$user->id'";
+        $sth = $dbh->prepare($query);
+        $request_succeeded = $sth->execute();
+
+        $query = "DELETE FROM Users WHERE `id` = '$user->id'";
+        $sth = $dbh->prepare($query);
+        $request_succeeded = $sth->execute();
+
+        if ($request_succeeded){
+            return true;
+        }
+        else return NULL;
+    }
+
     public static function deleteNote($dbh, $login, $note_name){
         $user_metadata = MininoteUserMetaData::getUserMetaData($dbh, $login);
 

@@ -45,6 +45,7 @@ $title = getPageTitle($askedPage);
 generateHTMLHeader($title);
 
 Menu();
+var_dump($_SESSION);
 
 
 //if($askedPage == "editor"){

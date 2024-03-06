@@ -15,8 +15,6 @@ $(document).ready(function(){
                 data: { login: sessionData.login},
                 success: function(response) {
                     console.log(response);
-                    var newElement = $("<div>").text("Initialized deleted Element");
-                    $("body").append(newElement);
                 }
             });
         }

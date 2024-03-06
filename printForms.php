@@ -92,7 +92,7 @@ function account(){
     <h1 class='text-center'>Account</h1>
     <form action='#' method='POST'>
               
-            <button type='submit' class='btn btn-light mt-3'>Delete account</button>
+            <button id="deleteAccount" type='submit' class='btn btn-light mt-3'>Delete account</button>
             <button id="deleteNotesButton" type='submit' class='btn btn-light mt-3'>Delete all notes</button>
             <button type='submit' class='btn btn-light mt-3'>Make all notes public</button>
             <button type='submit' class='btn btn-light mt-3'>Make all notes private</button>

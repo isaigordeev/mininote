@@ -491,7 +491,9 @@ function constructWall() {
                 });
 
                 // Insert generated HTML into the wall
-                document.getElementById("wall").innerHTML = html;
+                if(document.getElementById("wall")) {
+                    document.getElementById("wall").innerHTML = html;
+                }
             }
         },
         error: function(xhr, status, error) {
@@ -549,9 +551,13 @@ function getMentions() {
 
 
 
-$(document).ready(function() {
+$("#accueil").ready(function() {
     constructNavigationBar();
     constructWall();
+});
+
+$("#editor").ready(function() {
+    constructNavigationBar();
 });
 
 

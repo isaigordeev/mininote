@@ -1,4 +1,4 @@
-<div class="container-fluid Signup">
+<div id="editor" class="container-fluid Signup">
   <div class="col-md-6 offset-md-3">
     <br>
   </div>
