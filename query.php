@@ -228,6 +228,26 @@ class MininoteUser extends MininoteUserAbstract {
         }
     }
 
+    public static function getMentions($dbh, $login, $note){
+        $note_id = MininoteUser::getNoteId($dbh, $login, $note);
+        $user = MininoteUser::getUser($dbh, $login);
+
+        $query = "SELECT * FROM `notes` WHERE text LIKE '%[[$note]]%' AND `note_id` != $note_id AND `user_id` = $user->id";
+
+        $sth = $dbh->prepare($query);
+        $request_succeeded = $sth->execute();
+
+        if ($request_succeeded) {
+            // Fetch all rows as associative array
+            $result = $sth->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } else {
+            // Handle query execution failure
+            return false;
+        }
+    }
+
+
 
     public static function makeNotePrivate($dbh, $login, $note_name){
         $user = MininoteUser::getUser($dbh, $login);
@@ -290,6 +310,47 @@ class MininoteUser extends MininoteUserAbstract {
         else return NULL;
     }
 
+    public static function deleteNote($dbh, $login, $note_name){
+        $user_metadata = MininoteUserMetaData::getUserMetaData($dbh, $login);
+
+        $note_user_id = MininoteUser::getNoteId($dbh, $login, $note_name);
+
+
+        $query = "DELETE FROM notes WHERE `user_id` = '$user_metadata->user_id' AND `note_user_id` = '$note_user_id'";
+        $sth = $dbh->prepare($query);
+        $request_succeeded = $sth->execute();
+
+        $dirs_arr = json_decode($user_metadata->dirs, true);
+
+//        foreach ($dirs_arr as $key => $value) {
+//            // Check if the value matches the element to find
+//            if ($value === $note_name) {
+//                unset($dirs_arr[$key]);
+//            }
+//        }
+//
+//        $dirs = json_encode($dirs_arr);
+
+        $key = array_search($note_name, $dirs_arr);
+        if ($key !== false) {
+            unset($dirs_arr[$key]);
+        }
+
+        $dirs = json_encode(array_values($dirs_arr));
+
+        $query = "UPDATE `metadata_users` SET `dirs` = :new_dirs WHERE `user_id` = :user_id";
+
+        $sth = $dbh->prepare($query);
+        $sth->bindParam(':new_dirs', $dirs);
+        $sth->bindParam(':user_id', $user_metadata->user_id);
+        $request_succeeded = $sth->execute();
+
+        if ($request_succeeded){
+            return true;
+        }
+        else return NULL;
+    }
+
 
 
     public static function insertUser($dbh, $login, $pass, $name){
@@ -326,6 +387,7 @@ class MininoteUser extends MininoteUserAbstract {
             if($dirs == null || $dirs == ""){
                 $path = json_encode([$note_name]);
             } else {
+
 //                $paths_array = json_decode($dirs, true);
 //                $lastIndex = 1;
 //
@@ -364,6 +426,7 @@ class MininoteUser extends MininoteUserAbstract {
             $dbh->commit();
 
         } catch (PDOException $e) {
+            $dbh->rollBack();
             echo 'Note is not created: ' . $e->getMessage();
             exit(0);
         }

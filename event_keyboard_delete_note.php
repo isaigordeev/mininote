@@ -6,32 +6,15 @@ global $dbh;
 global $_SESSION;
 require("connection.php");
 require("query.php");
-//echo "Create a new note!";
+echo "Delete a note!";
 
 $user_login = $_SESSION['login'];
-$note_name = "Untitled";
-$content = "";
+$currentNote = $_SESSION['currentNote'];
 
 $metadata_user = MininoteUserMetaData::getUserMetaData($dbh, $user_login);
 $path = $metadata_user->dirs;
 
-$dirsArray = json_decode($path, true);
-//var_dump($dirsArray);
-
-if ($dirsArray !== null) {
-    $untitledCount = 0;
-
-    foreach ($dirsArray as $dir) {
-        if (strpos($dir, 'Untitled') !== false) {
-            $untitledCount++;
-        }
-    }
-    $note_name = $note_name . ($untitledCount+1);
-}
 
 
-MininoteUser::createNote($dbh, $user_login, $note_name, $content);
-
-echo $note_name;
-
+MininoteUser::deleteNote($dbh, $user_login, $currentNote);
 ?>

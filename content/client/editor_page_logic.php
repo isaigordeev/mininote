@@ -10,6 +10,8 @@ function startPage() {
       
         <div class="empty-state-action">Create new file (Shift N)</div>
         
+        <div class="empty-state-action">Delete a note (Shift D)</div>
+        
         <div class="empty-state-action">Make a note public (Shift C)</div>
         
         <div class="empty-state-action">Make a note private (Shift V)</div>

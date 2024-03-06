@@ -29,26 +29,31 @@
 //     });
 // });
 
+
+
 function renderMenu(paths) {
-    var html = '<ul>';
+    var list = $('<ul class="list-group"></ul>');
 
-    for (var key in paths) {
-        if (paths.hasOwnProperty(key)) { // Ensure the property belongs to the object itself, not inherited
-            var item = paths[key];
-            if (Array.isArray(item.children) && item.children.length > 0) {
-                html += '<li>' + item.label;
-                html += renderMenu(item.children); // Recursively render nested menu
-            } else {
-                html += '<li onclick="handleItemClick(this)">' + item + '</li>';
-                // console.log(item.label);
-            }
+    paths.forEach(function(item) {
+        if (Array.isArray(item.children) && item.children.length > 0) {
+            var sublist = renderMenu(item.children);
+            var listItem = $('<li class="list-group-item dropdown"></li>');
+            listItem.text(item.label);
+            listItem.append(sublist);
+            list.append(listItem);
+        } else {
+            var listItem = $('<li class="list-group-item"></li>');
+            listItem.text(item);
+            listItem.on("click", function() {
+                handleItemClick(this);
+            });
+            list.append(listItem);
         }
-    }
+    });
 
-    html += '</ul>';
-
-    return html;
+    return list;
 }
+
 
 function handleItemClick(element) {
     console.log('Clicked item:', element.textContent);
@@ -60,8 +65,8 @@ function handleItemClick(element) {
         success: function(resp) {
             console.log(resp);
             editorInitiation(element.textContent, resp);
-
             fetchCurrentNote(element.textContent);
+            getMentions();
         }
     });
 
@@ -82,6 +87,9 @@ function handleKeyboardEvent(event) {
         makePublic();
     } else if (event.shiftKey && event.key === "V" ) {
         makePrivate();
+    } else if (event.shiftKey && event.key === "D" ) {
+        deleteNote();
+        editorDelete();
     }
 
 }
@@ -97,10 +105,6 @@ function editorDelete() {
 
         var editorContainer = $("#editor-bar");
 
-
-
-
-
         var textarea = $("#code");
         textarea.remove();
 
@@ -109,18 +113,17 @@ function editorDelete() {
 
         const actions = [
             "Create new file (Shift N)",
+            "Delete a note (Shift D)",
             "Make a note public (Shift C)",
             "Make a note private (Shift V)",
             "Save and Quit (Shift W)",
             "Save (Shift S)",
         ];
 
-// Create a new div to hold the actions
         const actionList = $("<div id='empty-state-action-list'></div>");
 
         actionList.append("<h2>No file is open</h2>");
 
-// Loop through the actions and create div elements for each
         actions.forEach(action => {
             const div = $("<div></div>");
             div.addClass("empty-state-action");
@@ -128,14 +131,11 @@ function editorDelete() {
             actionList.append(div);
         });
 
-// Create a parent container with the class "col-md-6 offset-md-3"
         const parentContainer = $("<div></div>");
         parentContainer.addClass("col-md-6 offset-md-3");
 
-// Insert the action list into the parent container
         parentContainer.append(actionList);
 
-// Insert the parent container after the editor-bar
         editorContainer.after(parentContainer);
 
 
@@ -212,13 +212,6 @@ function editorInitiation(note_name, content="") {
             lineWrapping: true
         });
 
-        function refreshEditorSize() {
-            editor.refresh();
-        }
-
-        editor.on("change", function() {
-            refreshEditorSize();
-        });
 
         window.editor = editor;
 
@@ -245,14 +238,6 @@ function editorInitiation(note_name, content="") {
             scrollbarStyle: null,
             lineWrapping: true,
             autoRefresh: true
-        });
-
-        function refreshEditorSize() {
-            editor.refresh();
-        }
-
-        editor.on("change", function() {
-            refreshEditorSize();
         });
 
         window.editor = editor;
@@ -313,6 +298,7 @@ function makePublic() {
         url: "event_keyboard_make_note_public.php",
         success: function(resp) {
             console.log(resp);
+            $("#status").text("~private");
         }
     });
 }
@@ -324,6 +310,7 @@ function makePrivate() {
         url: "event_keyboard_make_note_private.php",
         success: function(resp) {
             console.log(resp);
+            $("#status").text("~public");
         }
     });
 }
@@ -378,6 +365,15 @@ function creationNote0() {
     }
 }
 
+function deleteNote() {
+    $.ajax({
+        type: "POST",
+        url: "event_keyboard_delete_note.php",
+        success: function(response) {
+            constructNavigationBar();
+        }
+    });
+}
 
 function creationNote() {
 
@@ -396,6 +392,7 @@ function creationNote() {
 
                 fetchCurrentNote(currentNote);
 
+                getMentions();
                 constructNavigationBar();
 
                 console.log(window.editor);
@@ -416,16 +413,15 @@ function constructNavigationBar() {
     $.ajax({
         url: 'event_navigation_bar_fetch.php',
         type: 'GET',
-        // dataType: 'json',
         success: function(paths) {
-            if (paths == null || paths === ""){
-                document.getElementById("navigation-bar").innerHTML = "";
+            if (!paths || paths === "") {
+                $("#navigation-bar").empty();
             } else {
                 console.log(paths);
                 var data = JSON.parse(paths);
-                var html = renderMenu(data);
+                var list = renderMenu(data);
 
-                document.getElementById("navigation-bar").innerHTML = html;
+                $("#navigation-bar").empty().append(list);
             }
         },
         error: function(xhr, status, error) {
@@ -433,6 +429,30 @@ function constructNavigationBar() {
         }
     });
 }
+
+// function constructNavigationBar() {
+//     $.ajax({
+//         url: 'event_navigation_bar_fetch.php',
+//         type: 'GET',
+//         // dataType: 'json',
+//         success: function(paths) {
+//             if (paths == null || paths === ""){
+//                 document.getElementById("navigation-bar").innerHTML = "";
+//             } else {
+//                 console.log(paths);
+//                 var data = JSON.parse(paths);
+//                 var html = renderMenu(data);
+//
+//                 document.getElementById("navigation-bar").innerHTML = html;
+//             }
+//         },
+//         error: function(xhr, status, error) {
+//             console.error(error);
+//         }
+//     });
+// }
+
+
 
 function constructWall() {
     $.ajax({
@@ -480,13 +500,59 @@ function constructWall() {
     });
 }
 
+function getMentions() {
+    $.ajax({
+        url: 'fetch_mentions.php',
+        type: 'GET',
+        success: function(paths_json) {
+            // Parse JSON data
+            console.log(paths_json);
+            var data = JSON.parse(paths_json);
+
+            // Get the info-bar element
+            var infoBar = $("#info-bar");
+
+            // Empty the info-bar before appending new content
+            infoBar.empty();
+
+            // Check if data is empty or null
+            if (!data || data.length === 0) {
+                // Display a message if there are no notes
+                infoBar.append("<p>No notes connected</p>");
+            } else {
+                console.log(data);
+
+                // Create an unordered list element
+                var list = $('<ul class="list-group"></ul>');
+
+                // Iterate over each note in the data
+                data.forEach(function(note) {
+                    // Create a list item for each note
+                    var listItem = $('<li class="list-group-item"></li>');
+                    listItem.text(note.name + ' | ' + note.text.substring(0, 25));
+
+                    // Append the list item to the list
+                    list.append(listItem);
+                });
+
+                // Append the list to the info-bar
+                infoBar.append(list);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+}
+
+
+
 
 
 $(document).ready(function() {
     constructNavigationBar();
     constructWall();
 });
-
 
 
 document.addEventListener("keydown", handleKeyboardEvent);
