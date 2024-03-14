@@ -39,7 +39,7 @@
               <h5>Linked mentions </h5>
             </div>
             <div class="col">
-              <h5 id="status">~private</h5>
+              <h5 id="status">~</h5>
             </div>
             </div>
           </div>

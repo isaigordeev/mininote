@@ -4,7 +4,7 @@
 <!---->
 <!--</div>-->
 
-<div class="container-fluid">
+<div id="accueil" class="container-fluid">
   <div class="col-md-6 offset-md-3">
   </div>
 

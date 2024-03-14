@@ -9,6 +9,6 @@ require("query.php");
 $user_login = $_SESSION['login'];
 $note_name = $_POST['note_name'];
 
-echo MininoteUser::openNote($dbh, $user_login, $note_name);
+echo MininoteUser::openNoteExtended($dbh, $user_login, $note_name);
 
 ?>

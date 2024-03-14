@@ -125,9 +125,12 @@ function generateHTMLFooter(){
     <script src="create_session.js"></script>
     
     <script src="content/client/navigation_handler.js"></script>
-    <script src="event_navigation_bar_fetch.js"></script>
+    <script src="event_handlers_general.js"></script>
+    <script src="events_handlers_core.js"></script>
     <script src="event_click_delete_notes.js"></script>
     <script src="event_click_delete_account.js"></script>
+    <script src="event_click_make_all_notes_public.js"></script>
+    <script src="event_click_make_all_notes_private.js"></script>
     
     </html>
 

@@ -64,7 +64,10 @@ function handleItemClick(element) {
         data: {note_name: element.textContent},
         success: function(resp) {
             console.log(resp);
-            editorInitiation(element.textContent, resp);
+            var note_data = JSON.parse(resp);
+            var status =  note_data["public"] === 0  ? "~private" : "~public";
+
+            editorInitiation(element.textContent, note_data["text"], status);
             fetchCurrentNote(element.textContent);
             getMentions();
         }
@@ -107,6 +110,9 @@ function editorDelete() {
 
         var textarea = $("#code");
         textarea.remove();
+
+        var status = $("#status");
+        status.text("");
 
         var noteNameSpaceOld = $("#editableNoteName");
         noteNameSpaceOld.remove();
@@ -180,7 +186,7 @@ $(document).ready(function() {
 });
 
 
-function editorInitiation(note_name, content="") {
+function editorInitiation(note_name, content="", status="~private") {
     // console.log(response);
 
     if ($("#code").length) {
@@ -195,6 +201,9 @@ function editorInitiation(note_name, content="") {
         var noteNameSpaceOld = $("#editableNoteName");
         noteNameSpaceOld.remove();
         textarea.remove();
+
+        var status_bar = $("#status");
+        status_bar.text(status);
 
         var noteNameArea = $("<div>").attr("id", "editableNoteName").attr("contentEditable", "true").text(note_name);
 
@@ -230,6 +239,9 @@ function editorInitiation(note_name, content="") {
 
         editorContainer.append(textarea);
         noteNameSpace.append(noteNameArea);
+
+        var status_bar = $("#status");
+        status_bar.text(status);
 
         var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
             lineNumbers: true,
@@ -298,7 +310,7 @@ function makePublic() {
         url: "event_keyboard_make_note_public.php",
         success: function(resp) {
             console.log(resp);
-            $("#status").text("~private");
+            $("#status").text("~public");
         }
     });
 }
@@ -310,7 +322,7 @@ function makePrivate() {
         url: "event_keyboard_make_note_private.php",
         success: function(resp) {
             console.log(resp);
-            $("#status").text("~public");
+            $("#status").text("~private");
         }
     });
 }
@@ -384,7 +396,7 @@ function creationNote() {
                 console.log(response);
                 console.log("note name yes");
 
-                editorInitiation(response);
+                editorInitiation(response, content="");
 
                 var currentNote = $("#editableNoteName").text();
                 console.log(currentNote);
@@ -551,16 +563,8 @@ function getMentions() {
 
 
 
-$("#accueil").ready(function() {
-    constructNavigationBar();
-    constructWall();
-});
 
-$("#editor").ready(function() {
-    constructNavigationBar();
-});
 
 
 document.addEventListener("keydown", handleKeyboardEvent);
 document.addEventListener("click", handleClickEvent);
-// document.getElementById("your-button-id").addEventListener("click", handleClickEvent);

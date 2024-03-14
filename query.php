@@ -175,6 +175,27 @@ class MininoteUser extends MininoteUserAbstract {
         }
     }
 
+    public static function openNoteExtended($dbh, $login, $note_name){
+        $user = MininoteUser::getUser($dbh, $login);
+        $query = "SELECT * FROM `notes` WHERE `user_id` = :user_id AND `name` = :note_name";
+
+        $sth = $dbh->prepare($query);
+        $sth->bindParam(':note_name', $note_name);
+        $sth->bindParam(':user_id', $user->id); // Assuming user_id is a property of $user
+        $request_succeeded = $sth->execute();
+
+        if ($request_succeeded){
+            $note = $sth->fetch(PDO::FETCH_ASSOC); // Fetch the result as an associative array
+            if ($note) {
+                return json_encode($note); // Return the value of the 'text' column
+            } else {
+                return NULL; // Note not found
+            }
+        } else {
+            return NULL; // Error executing the query
+        }
+    }
+
     public static function getNoteId($dbh, $login, $name) {
         $user = MininoteUser::getUser($dbh, $login);
         $query = "SELECT `note_user_id` FROM `notes` WHERE `user_id` = :login AND `name` = :name";
@@ -308,6 +329,26 @@ class MininoteUser extends MininoteUserAbstract {
             return true;
         }
         else return NULL;
+    }
+
+    public static function makeAllPublic($dbh, $login){
+        $user = MininoteUser::getUser($dbh, $login);
+
+        $query = "UPDATE `notes` SET `public` = 1 WHERE `user_id` = :user_id";
+
+        $sth = $dbh->prepare($query);
+        $sth->bindParam(':user_id', $user->id);
+        $request_succeeded = $sth->execute();
+    }
+
+    public static function makeAllPrivate($dbh, $login){
+        $user = MininoteUser::getUser($dbh, $login);
+
+        $query = "UPDATE `notes` SET `public` = 0 WHERE `user_id` = :user_id";
+
+        $sth = $dbh->prepare($query);
+        $sth->bindParam(':user_id', $user->id);
+        $request_succeeded = $sth->execute();
     }
 
     public static function deleteAccount($dbh, $login){
@@ -466,7 +507,7 @@ class MininoteUser extends MininoteUserAbstract {
 
 //            $name = "Untitled9";
 
-            echo ($name)."name ";
+//            echo ($name)."name ";
 
             $sth->bindParam(':name', $name);
             $sth->bindParam(':text', $text);

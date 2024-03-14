@@ -11,6 +11,9 @@
 
     <div class="row">
         <div class="col-md-3">
+          <div class="col-md-8 offset-5">
+            <h5>Files</h5>
+          </div>
           <div id="navigation-bar" class="col">
           </div>
         </div>

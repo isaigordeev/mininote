@@ -71,7 +71,7 @@ if ($dirsArray !== null) {
         $missingNumber++;
     }
 
-    $note_name .= 'Untitled' . $missingNumber;
+    $note_name .= $missingNumber;
 }
 
 //echo $note_name;
